@@ -10,5 +10,3 @@ requests=2.9.1
 setuptools=19.4
 wheel=0.26.0
 wsgiref=0.1.2
-frf
-e3e
