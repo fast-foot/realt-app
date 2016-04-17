@@ -1,0 +1,43 @@
+{% include 'parts/head.html' %}
+
+<body>
+
+{% include 'parts/header.html' %}
+
+<section class="margin-top-from-nav" id="users">
+    <h1 class="heading text-center">Список зарегистрированнных пользователей</h1>
+    <div>
+    <table class="table table-responsive table-striped table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Логин</th>
+                <th>Имя</th>
+                <th>Фамилия</th>
+                <th>Email</th>
+                <th>Номер телефона</th>
+                <th>Дата рождения</th>
+                <th>Режим доступа</th>
+            </tr>
+        </thead>
+        {% for user in users %}
+            <tr>
+                <td>{{ user['login'] }}</td>
+                <td>{{ user['firstname'] }}</td>
+                <td>{{ user['lastname'] }}</td>
+                <td>{{ user['email'] }}</td>
+                <td>{{ user['phone_number'] }}</td>
+                <td>{{ user['birthday'] }}
+                {% if user['role'] == 1 %}
+                    <td>Пользователь</td>
+                {% else %}
+                    <td>Администратор</td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+</section>
+{% include 'parts/footer.html' %}
+{% include 'parts/scripts.html' %}
+</body>
+</html>

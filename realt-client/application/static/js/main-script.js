@@ -1,5 +1,5 @@
-var API_SERVER = 'http://127.0.0.1:5000';
-var CLIENT_SERVER = 'http://0.0.0.0:4992';
+const API_SERVER = 'http://127.0.0.1:5000';
+const CLIENT_SERVER = 'http://0.0.0.0:4992';
 
 $(document).ready(function () {
 

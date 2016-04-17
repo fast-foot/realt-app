@@ -543,11 +543,17 @@ padding: 22px 0 !important;
 
 #login-user-nav {
 	margin-top: -50px;
-	color: black;
 }
 
 #authUserNav, #authAdminNav {
 	margin-bottom: -20px;
 	margin-right: -484px;
-	color: black;
+}
+
+.margin-top-from-nav {
+	margin-top: 130px;
+}
+
+footer {
+	background: lightgray;
 }

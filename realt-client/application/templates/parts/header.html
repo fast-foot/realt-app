@@ -29,7 +29,7 @@
         {% if session.role == 2 %}
         <ul class="nav navbar-nav" id="authAdminNav">
           <li><a href="#">Профиль</a></li>
-          <li><a href="#">Просмотр пользователей</a></li>
+          <li><a href="{{ url_for('get_users') }}">Просмотр пользователей</a></li>
         </ul>
         {% endif %}
     </div>
@@ -40,3 +40,4 @@
   <!--/.container-->
 </header>
 <!--/.header-->
+<div id="#top"></div>

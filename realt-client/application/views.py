@@ -42,3 +42,11 @@ def logout():
     session.clear()
     return render_template('index.html')
 
+@app.route('/users', methods=['GET'])
+def get_users():
+    req_url = rest_api() + '/users?role=' + str(session['role'])
+    r = requests.get(req_url)
+    data = json.loads(r.text)
+
+    return render_template('users.html', users=data['users'])
+

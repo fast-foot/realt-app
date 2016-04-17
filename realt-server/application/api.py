@@ -43,14 +43,14 @@ class RegGetUser(Resource):
         if args['role'] == 2: # admin
             users = {}
             for user in db_session.query(User).all():
-                if user.role == 1:
-                    users.setdefault('users', []).append({'login': user.login,
-                                                          'password': user.password,
-                                                          'email': user.email,
-                                                          'phone_number': user.phone_number,
-                                                          'firstname': user.firstname,
-                                                          'lastname': user.lastname,
-                                                          'birthday': user.birthday})
+                users.setdefault('users', []).append({'login': user.login,
+                                                      'password': user.password,
+                                                      'email': user.email,
+                                                      'phone_number': user.phone_number,
+                                                      'firstname': user.firstname,
+                                                      'lastname': user.lastname,
+                                                      'birthday': user.birthday,
+                                                      'role': user.role})
         else:
             return {'Fail' : 'You have no permissions to see information about users'}
 
