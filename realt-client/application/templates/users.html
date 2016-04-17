@@ -7,7 +7,7 @@
 <section class="margin-top-from-nav" id="users">
     <h1 class="heading text-center">Список зарегистрированнных пользователей</h1>
     <div>
-    <table class="table table-responsive table-striped table-bordered table-hover">
+    <table id="usersTable" class="table table-responsive table-striped table-bordered table-hover">
         <thead>
             <tr>
                 <th>Логин</th>
@@ -20,13 +20,14 @@
             </tr>
         </thead>
         {% for user in users %}
-            <tr>
+            <tr id="userEditRow" data-toggle="modal" data-target=".bs-example-modal-lg">
                 <td>{{ user['login'] }}</td>
                 <td>{{ user['firstname'] }}</td>
                 <td>{{ user['lastname'] }}</td>
                 <td>{{ user['email'] }}</td>
                 <td>{{ user['phone_number'] }}</td>
                 <td>{{ user['birthday'] }}
+                <td style="display: none;">{{ user['id'] }}</td>
                 {% if user['role'] == 1 %}
                     <td>Пользователь</td>
                 {% else %}
@@ -37,6 +38,7 @@
     </table>
 </div>
 </section>
+{% include 'parts/edit_user.html' %}
 {% include 'parts/footer.html' %}
 {% include 'parts/scripts.html' %}
 </body>

@@ -50,7 +50,8 @@ class RegGetUser(Resource):
                                                       'firstname': user.firstname,
                                                       'lastname': user.lastname,
                                                       'birthday': user.birthday,
-                                                      'role': user.role})
+                                                      'role': user.role,
+                                                      'id': user.id})
         else:
             return {'Fail' : 'You have no permissions to see information about users'}
 
@@ -78,7 +79,51 @@ class LogIn(Resource):
                     'birthday': user.birthday,
                     'role': user.role}
 
+class EditDeleteUser(Resource):
+    def delete(self, id):
+        user_to_delete = db_session.query(User).filter(User.id == id).first()
+        if user_to_delete == None:
+            return {'Fail': 'There is no user with such id!'}
+        else:
+            db_session.delete(user_to_delete)
+            db_session.commit()
+
+    def post(self, id):
+        user = db_session.query(User).filter(User.id == id).first()
+        if user == None:
+            return {'Fail': 'There is no user with such id!'}
+        else:
+            try:
+                parser = reqparse.RequestParser(bundle_errors=True)
+                parser.add_argument('login', type=str, required=True, help="Login cannot be blank!")
+                parser.add_argument('email', type=str, required=True, help="Email cannot be blank!")
+                parser.add_argument('phone_number', type=str, required=True, help="Phone number cannot be blank!")
+                parser.add_argument('firstname', type=str, required=True, help="Firstname cannot be blank!")
+                parser.add_argument('lastname', type=str, required=True, help="Lastname cannot be blank!")
+                parser.add_argument('birthday', type=str)
+                #parser.add_argument('role', type=int)
+                args = parser.parse_args()
+
+                user.login = args['login']
+                user.email = args['email']
+                user.phone_number = args['phone_number']
+                user.firstname = args['firstname']
+                user.lastname = args['lastname']
+                user.birthday = args['birthday']
+                #user.role = args['role']
+                db_session.add(user)
+                db_session.commit()
+
+                return jsonify({'Success' : 'User is updated.'})
+
+            except Exception as e:
+                return {'error': str(e)}
+
 # remove database sessions at the end of the request or when the application shuts down
 @app.teardown_appcontext
 def shutdown_session(exception=None):
     db_session.remove()
+
+
+#To do:
+#1. check if user exist - forbid registration with such credentials

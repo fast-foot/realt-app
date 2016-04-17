@@ -5,9 +5,9 @@ from flask_restful import reqparse
 app = Flask(__name__)
 
 from application import api
-from application.api import RegGetUser, LogIn
+from application.api import RegGetUser, LogIn, EditDeleteUser
 
 api = Api(app)
 api.add_resource(RegGetUser, '/users')
 api.add_resource(LogIn, '/login')
-#api.add_resource(UserAPI, '/user/<int:id>')
+api.add_resource(EditDeleteUser, '/user/<int:id>')

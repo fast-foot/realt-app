@@ -557,3 +557,7 @@ padding: 22px 0 !important;
 footer {
 	background: lightgray;
 }
+
+#usersTable td {
+	cursor: pointer;
+}
