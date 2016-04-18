@@ -4,6 +4,7 @@ const CLIENT_SERVER = 'http://0.0.0.0:4992';
 $(document).ready(function () {
 
     $('#reg-btn').click(function() {
+
         console.log($('.reg-form').serialize());
         $.ajax({
             url: API_SERVER +'/users',
@@ -18,7 +19,7 @@ $(document).ready(function () {
         });
     });
 
-    $('#login-btn').click(function () {
+    /*$('#login-btn').click(function () {
         $.ajax({
             url: CLIENT_SERVER + '/login',
             data: $('#logInForm').serialize(),
@@ -29,7 +30,7 @@ $(document).ready(function () {
             error: function(error) {
                 console.log(error);
             }
-        });
+        });*/
 
         /*$.getJSON($SCRIPT_ROOT + '/login', {
             login: $('#logInForm #login').val(),
