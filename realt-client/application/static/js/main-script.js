@@ -3,23 +3,39 @@ const CLIENT_SERVER = 'http://0.0.0.0:4992';
 
 $(document).ready(function () {
 
-    $('#reg-btn').click(function() {
+    var emailMask = /^[A-Z0-9._%+-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i;
 
-        console.log($('.reg-form').serialize());
-        $.ajax({
-            url: API_SERVER +'/users',
-            data: $('.reg-form').serialize(),
-            type: 'POST',
-            success: function(response) {
-                console.log(response);
-            },
-            error: function(error) {
-                console.log(error);
-            }
-        });
+    jQuery(function($){
+        $("#phoneNumber").mask("+999 99 999-99-99");
+        $("#birthday").mask("99.99.9999");
     });
 
-    /*$('#login-btn').click(function () {
+    $('#reg-btn').click(function() {
+        if($('#password1').val() == $('#password2').val()){
+            if(emailMask.test($('#email').val())) {
+                console.log($('.reg-form').serialize());
+                $.ajax({
+                    url: API_SERVER +'/users',
+                    data: $('.reg-form').serialize(),
+                    type: 'POST',
+                    success: function(response) {
+                        console.log(response);
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+            } else {
+                $('#text_for_error').text("Проверьте правильность введенного email");
+                $('#myModal').modal();
+            }
+        } else {
+            $('#text_for_error').text("Пароли не совпадают");
+            $('#myModal').modal();
+        }
+    });
+
+    $('#login-btn').click(function () {
         $.ajax({
             url: CLIENT_SERVER + '/login',
             data: $('#logInForm').serialize(),
@@ -30,7 +46,7 @@ $(document).ready(function () {
             error: function(error) {
                 console.log(error);
             }
-        });*/
+        });
 
         /*$.getJSON($SCRIPT_ROOT + '/login', {
             login: $('#logInForm #login').val(),

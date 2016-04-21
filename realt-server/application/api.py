@@ -30,7 +30,7 @@ class RegGetUser(Resource):
             db_session.add(new_user)
             db_session.commit()
 
-            return {'success' : 'User is created'}
+            return {'success': 'User is created'}
 
         except Exception as e:
             return {'error': str(e)}
@@ -53,7 +53,7 @@ class RegGetUser(Resource):
                                                       'role': user.role,
                                                       'id': user.id})
         else:
-            return {'Fail' : 'You have no permissions to see information about users'}
+            return {'Fail': 'You have no permissions to see information about users'}
 
         return jsonify(users)
 

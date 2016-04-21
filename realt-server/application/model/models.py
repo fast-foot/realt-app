@@ -98,7 +98,6 @@ class Property(Base):
 
     def __init__(self, total_square, live_square, kitchen_square, price,
                  unit_price, year, floor, floors, rooms_number, description):
-
         self.total_square = total_square
         self.live_square = live_square
         self.kitchen_square = kitchen_square
