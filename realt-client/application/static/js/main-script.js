@@ -48,13 +48,6 @@ $(document).ready(function () {
             }
         });
 
-        /*$.getJSON($SCRIPT_ROOT + '/login', {
-            login: $('#logInForm #login').val(),
-            password: $('#logInForm #password').val()
-        }, function(data) {
-              console.log(data.result);
-           });*/
-
     });
 
     /*Edit user in admin mode*/
