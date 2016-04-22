@@ -10,22 +10,22 @@ class RegGetUser(Resource):
     def post(self):
         try:
             parser = reqparse.RequestParser(bundle_errors=True)
-            parser.add_argument('login', type=str, required=True, help="Login cannot be blank!")
-            parser.add_argument('password', type=str, required=True, help="Password cannot be blank!")
-            parser.add_argument('email', type=str, required=True, help="Email cannot be blank!")
-            parser.add_argument('phone_number', type=str, required=True, help="Phone number cannot be blank!")
-            parser.add_argument('firstname', type=str, required=True, help="Firstname cannot be blank!")
-            parser.add_argument('lastname', type=str, required=True, help="Lastname cannot be blank!")
-            parser.add_argument('birthday', type=str)
+            parser.add_argument('login', required=True, help="Login cannot be blank!")
+            parser.add_argument('password', required=True, help="Password cannot be blank!")
+            parser.add_argument('email', required=True, help="Email cannot be blank!")
+            parser.add_argument('phone_number', required=True, help="Phone number cannot be blank!")
+            parser.add_argument('firstname', required=True, help="Firstname cannot be blank!")
+            parser.add_argument('lastname', required=True, help="Lastname cannot be blank!")
+            parser.add_argument('birthday')
             args = parser.parse_args()
 
-            new_user = User(login=args['login'],
-                            password=sha1(args['password']).hexdigest(),
-                            email=args['email'],
-                            phone_number=args['phone_number'],
-                            firstname=args['firstname'],
-                            lastname=args['lastname'],
-                            birthday=args['birthday'])
+            new_user = User(login=args['login'].encode('utf-8'),
+                            password=sha1(args['password'].encode('utf-8')).hexdigest(),
+                            email=args['email'].encode('utf-8'),
+                            phone_number=args['phone_number'].encode('utf-8'),
+                            firstname=args['firstname'].encode('utf-8'),
+                            lastname=args['lastname'].encode('utf-8'),
+                            birthday=args['birthday'].encode('utf-8'))
 
             db_session.add(new_user)
             db_session.commit()
@@ -56,6 +56,9 @@ class RegGetUser(Resource):
             return {'Fail' : 'You have no permissions to see information about users'}
 
         return jsonify(users)
+
+    def delete(self):
+        a = 2
 
 class LogIn(Resource):
     def get(self):
@@ -88,8 +91,8 @@ class EditDeleteUser(Resource):
             db_session.delete(user_to_delete)
             db_session.commit()
 
-    def post(self, id):
-        user = db_session.query(User).filter(User.id == id).first()
+    def put(self, id):
+        user = db_session.query(User).filter(User.id == int(id)).first()
         if user == None:
             return {'Fail': 'There is no user with such id!'}
         else:
@@ -127,3 +130,4 @@ def shutdown_session(exception=None):
 
 #To do:
 #1. check if user exist - forbid registration with such credentials
+#2. fix registration in russian

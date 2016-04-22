@@ -17,25 +17,30 @@
                 <th>Номер телефона</th>
                 <th>Дата рождения</th>
                 <th>Режим доступа</th>
+                <th>Удалить</th>
             </tr>
         </thead>
         {% for user in users %}
-            <tr id="userEditRow" data-toggle="modal" data-target=".bs-example-modal-lg">
-                <td>{{ user['login'] }}</td>
-                <td>{{ user['firstname'] }}</td>
-                <td>{{ user['lastname'] }}</td>
-                <td>{{ user['email'] }}</td>
-                <td>{{ user['phone_number'] }}</td>
-                <td>{{ user['birthday'] }}
-                <td style="display: none;">{{ user['id'] }}</td>
+            <tr id="userEditRow" >
+                <td data-toggle="modal" data-target=".bs-example-modal-lg">{{ user['login'] }}</td>
+                <td data-toggle="modal" data-target=".bs-example-modal-lg">{{ user['firstname'] }}</td>
+                <td data-toggle="modal" data-target=".bs-example-modal-lg">{{ user['lastname'] }}</td>
+                <td data-toggle="modal" data-target=".bs-example-modal-lg">{{ user['email'] }}</td>
+                <td data-toggle="modal" data-target=".bs-example-modal-lg">{{ user['phone_number'] }}</td>
+                <td data-toggle="modal" data-target=".bs-example-modal-lg">{{ user['birthday'] }}
+                <td data-toggle="modal" data-target=".bs-example-modal-lg" style="display: none;" >{{ user['id'] }}</td>
                 {% if user['role'] == 1 %}
                     <td>Пользователь</td>
                 {% else %}
                     <td>Администратор</td>
                 {% endif %}
+                <td><input type="checkbox"></td>
             </tr>
         {% endfor %}
     </table>
+</div>
+<div class="col-md-4 col-md-offset-4">
+    <button id="deleteUsersBtn" class="btn btn-primary">Удалить</button>
 </div>
 </section>
 {% include 'parts/edit_user.html' %}

@@ -8,6 +8,8 @@ $(document).ready(function () {
         $.ajax({
             url: API_SERVER +'/users',
             data: $('.reg-form').serialize(),
+            contentType: "application/x-www-form-urlencoded;charset=utf-8",
+            dataType: "json",
             type: 'POST',
             success: function(response) {
                 console.log(response);
@@ -30,13 +32,6 @@ $(document).ready(function () {
                 console.log(error);
             }
         });
-
-        /*$.getJSON($SCRIPT_ROOT + '/login', {
-            login: $('#logInForm #login').val(),
-            password: $('#logInForm #password').val()
-        }, function(data) {
-              console.log(data.result);
-           });*/
 
     });
 
@@ -67,7 +62,7 @@ $(document).ready(function () {
         $.ajax({
             url: API_SERVER + '/user/' + $('#editUserForm #user_id').val(),
             data: $('#editUserForm').serialize(),
-            type: 'POST',
+            type: 'PUT',
         }).done(function(data) {
             console.log(data);
         }).fail(function (e) {
@@ -89,5 +84,24 @@ $(document).ready(function () {
             $("tr#userEditRow").eq(editedRowIndex).find('td').eq(5).text(birthday);
         });
     });
+
+    $("#deleteUsersBtn").click(function(){
+        aler('dd');
+
+
+        });
+
+       /* $.ajax({
+            url: API_SERVER + '/users?id=' + '1',
+            data: 2,
+            type: 'DELETE',
+        }).done(function(data) {
+            console.log(data);
+        }).fail(function (e) {
+            console.log('error');
+        }).always(function () {
+
+        });
+    });*/
     /*/Edit user in admin mode*/
 });
