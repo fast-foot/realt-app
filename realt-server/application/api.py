@@ -63,8 +63,8 @@ class RegGetUser(Resource):
 class LogIn(Resource):
     def get(self):
         parser = reqparse.RequestParser()
-        parser.add_argument('login', type=str, required=True)
-        parser.add_argument('password', type=str, required=True)
+        parser.add_argument('login', required=True)
+        parser.add_argument('password', required=True)
         args = parser.parse_args()
 
         login = args['login']

@@ -543,6 +543,7 @@ padding: 22px 0 !important;
 
 #login-user-nav {
 	margin-top: -50px;
+	margin-right: 1300px;
 }
 
 #authUserNav, #authAdminNav {
@@ -561,3 +562,11 @@ footer {
 #usersTable td {
 	cursor: pointer;
 }
+
+.auth-fail {
+	margin-top: 200px;
+}
+
+/*users table*/
+
+/*/users table*/

@@ -2,12 +2,12 @@
 
 <body>
 
-{% include 'parts/header.html' %}
+{% include 'parts/auth_user_menu.html' %}
 
 <section class="margin-top-from-nav" id="users">
     <h1 class="heading text-center">Список зарегистрированнных пользователей</h1>
     <div>
-    <table id="usersTable" class="table table-responsive table-striped table-bordered table-hover">
+    <table id="usersTable" class="table table-responsive table-striped table-bordered table-hover header-fixed">
         <thead>
             <tr>
                 <th>Логин</th>
@@ -44,7 +44,6 @@
 </div>
 </section>
 {% include 'parts/edit_user.html' %}
-{% include 'parts/footer.html' %}
 {% include 'parts/scripts.html' %}
 </body>
 </html>

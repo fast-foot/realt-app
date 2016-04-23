@@ -15,8 +15,8 @@ def page_not_fount(e):
 
 @app.route('/', methods=['POST'])
 def login_user():
-    login = request.form['login']
-    password = request.form['password']
+    login = request.form['login'].encode('utf-8')
+    password = request.form['password'].encode('utf-8')
     password = sha1(password).hexdigest()
 
     req_url = rest_api() + '/login?' + 'login=' + login + '&password=' + password
@@ -33,8 +33,7 @@ def login_user():
 
         return render_template('index.html')
     else:
-        a = r.content
-        return  render_template('index.html', not_auth=r.content)
+        return  render_template('auth-fail.html')
 
 
 @app.route('/logout')

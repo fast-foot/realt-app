@@ -21,6 +21,10 @@ $(document).ready(function () {
                     dataType: "json",
                     type: 'POST',
                     success: function(response) {
+                        $('.reg-form').trigger('reset');
+                        $('#popup-title').text('Регистрация прошла успешно!');
+                        $('#popup-message').text("Используйте логин и пароль для входа на сайт.");
+                        $('#myModal').modal();
                         console.log(response);
                     },
                     error: function(error) {
@@ -28,28 +32,15 @@ $(document).ready(function () {
                     }
                 });
             } else {
-                $('#text_for_error').text("Проверьте правильность введенного email");
+                $('#popup-title').text('Ошибка ввода');
+                $('#popup-message').text("Проверьте правильность введенного email");
                 $('#myModal').modal();
             }
         } else {
-            $('#text_for_error').text("Пароли не совпадают");
+            $('#popup-title').text('Ошибка ввода');
+            $('#popup-message').text("Пароли не совпадают");
             $('#myModal').modal();
         }
-    });
-
-    $('#login-btn').click(function () {
-        $.ajax({
-            url: CLIENT_SERVER + '/login',
-            data: $('#logInForm').serialize(),
-            type: 'POST',
-            success: function(response) {
-                console.log(response);
-            },
-            error: function(error) {
-                console.log(error);
-            }
-        });
-
     });
 
     /*Edit user in admin mode*/
@@ -114,7 +105,7 @@ $(document).ready(function () {
         });
 
         if (usersIdToDelete === "") {
-            alert('Выберите хотя бы одного пользователя');
+            alert('Не выбран пользователь');
         }
         else {
             usersIdToDelete = usersIdToDelete.slice(0, usersIdToDelete.length - 1);
