@@ -86,22 +86,32 @@ $(document).ready(function () {
     });
 
     $("#deleteUsersBtn").click(function(){
-        aler('dd');
+        var usersIdToDelete = "";
 
+        $("tr#userEditRow").each(function() {
 
+            if ( $(this).find('input[type=checkbox]').is(':checked') ) {
+                usersIdToDelete += $(this).find('td').eq(6).text() + ",";
+                $(this).remove();
+            }
         });
 
-       /* $.ajax({
-            url: API_SERVER + '/users?id=' + '1',
-            data: 2,
-            type: 'DELETE',
-        }).done(function(data) {
-            console.log(data);
-        }).fail(function (e) {
-            console.log('error');
-        }).always(function () {
+        if (usersIdToDelete === "") {
+            alert('Выберите хотя бы одного пользователя');
+        }
+        else {
+            usersIdToDelete = usersIdToDelete.slice(0, usersIdToDelete.length - 1);
 
-        });
-    });*/
+            $.ajax({
+                url: API_SERVER + '/user/' + usersIdToDelete,
+                type: 'DELETE',
+            }).done(function(data) {
+                console.log(data);
+            }).fail(function (e) {
+                console.log('error');
+            })
+        }
+    });
+
     /*/Edit user in admin mode*/
 });

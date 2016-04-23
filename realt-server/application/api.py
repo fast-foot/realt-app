@@ -82,14 +82,18 @@ class LogIn(Resource):
                     'birthday': user.birthday,
                     'role': user.role}
 
+
 class EditDeleteUser(Resource):
+
     def delete(self, id):
-        user_to_delete = db_session.query(User).filter(User.id == id).first()
-        if user_to_delete == None:
-            return {'Fail': 'There is no user with such id!'}
-        else:
-            db_session.delete(user_to_delete)
+        ids_list = id.strip().split(",")
+
+        for id in ids_list:
+            user = db_session.query(User).filter(User.id == int(id)).first()
+            db_session.delete(user)
             db_session.commit()
+
+        return {'msg': 'Users have been deleted.'}
 
     def put(self, id):
         user = db_session.query(User).filter(User.id == int(id)).first()
@@ -98,20 +102,20 @@ class EditDeleteUser(Resource):
         else:
             try:
                 parser = reqparse.RequestParser(bundle_errors=True)
-                parser.add_argument('login', type=str, required=True, help="Login cannot be blank!")
-                parser.add_argument('email', type=str, required=True, help="Email cannot be blank!")
-                parser.add_argument('phone_number', type=str, required=True, help="Phone number cannot be blank!")
-                parser.add_argument('firstname', type=str, required=True, help="Firstname cannot be blank!")
-                parser.add_argument('lastname', type=str, required=True, help="Lastname cannot be blank!")
+                parser.add_argument('login',required=True, help="Login cannot be blank!")
+                parser.add_argument('email', required=True, help="Email cannot be blank!")
+                parser.add_argument('phone_number', required=True, help="Phone number cannot be blank!")
+                parser.add_argument('firstname', required=True, help="Firstname cannot be blank!")
+                parser.add_argument('lastname', required=True, help="Lastname cannot be blank!")
                 parser.add_argument('birthday', type=str)
                 #parser.add_argument('role', type=int)
                 args = parser.parse_args()
 
-                user.login = args['login']
-                user.email = args['email']
-                user.phone_number = args['phone_number']
-                user.firstname = args['firstname']
-                user.lastname = args['lastname']
+                user.login = args['login'].encode('utf-8')
+                user.email = args['email'].encode('utf-8')
+                user.phone_number = args['phone_number'].encode('utf-8')
+                user.firstname = args['firstname'].encode('utf-8')
+                user.lastname = args['lastname'].encode('utf-8')
                 user.birthday = args['birthday']
                 #user.role = args['role']
                 db_session.add(user)
@@ -130,4 +134,3 @@ def shutdown_session(exception=None):
 
 #To do:
 #1. check if user exist - forbid registration with such credentials
-#2. fix registration in russian
