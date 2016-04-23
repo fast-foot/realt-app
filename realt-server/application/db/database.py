@@ -18,7 +18,7 @@ def init_db():
     import application.model.models
     Base.metadata.create_all(bind=engine)
     #Base.metadata.drop_all(bind=engine)
-
+    #method for all tablse from database
 
 
 

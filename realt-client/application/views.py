@@ -1,6 +1,6 @@
 from application import app
 from flask import render_template, request, session
-from flask.ext.session import Session
+#from flask.ext.session import Session
 from application.config import rest_api
 from hashlib import sha1
 import json, requests
