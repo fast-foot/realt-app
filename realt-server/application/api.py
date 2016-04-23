@@ -101,7 +101,7 @@ class EditDeleteUser(Resource):
                 parser.add_argument('firstname', type=str, required=True, help="Firstname cannot be blank!")
                 parser.add_argument('lastname', type=str, required=True, help="Lastname cannot be blank!")
                 parser.add_argument('birthday', type=str)
-                #parser.add_argument('role', type=int)
+                parser.add_argument('role', type=int)
                 args = parser.parse_args()
 
                 user.login = args['login']
@@ -110,7 +110,7 @@ class EditDeleteUser(Resource):
                 user.firstname = args['firstname']
                 user.lastname = args['lastname']
                 user.birthday = args['birthday']
-                #user.role = args['role']
+                user.role = args['role']
                 db_session.add(user)
                 db_session.commit()
 
