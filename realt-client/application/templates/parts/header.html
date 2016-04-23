@@ -24,7 +24,7 @@
         <ul class="nav navbar-nav" id="authUserNav">
           <li><a href="#">Профиль</a></li>
           <li><a href="#">Мои объявления</a></li>
-          <li><a href="#">Разместить объявление</a></li>
+          <li><a href="{{ url_for('send_application') }}">Разместить объявление</a></li>
         </ul>
         {% endif %}
         {% if session.role == 2 %}

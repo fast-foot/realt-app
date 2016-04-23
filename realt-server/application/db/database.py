@@ -3,6 +3,7 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.engine.url import URL
 from application.db.settings import DATABASE
+from application.db import seed
 
 engine = create_engine(URL(**DATABASE), convert_unicode=True)
 db_session = scoped_session(sessionmaker(autocommit=False,

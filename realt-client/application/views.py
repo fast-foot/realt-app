@@ -49,3 +49,6 @@ def get_users():
 
     return render_template('users.html', users=data['users'])
 
+@app.route('/send_application')
+def send_application():
+    return render_template('application_form.html')

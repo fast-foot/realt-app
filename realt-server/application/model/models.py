@@ -89,7 +89,6 @@ class Property(Base):
     live_square = Column(Float)
     kitchen_square = Column(Float)
     price = Column(Float)
-    unit_price = Column(Float)
     year = Column(String(4))
     floor = Column(Integer)
     floors = Column(Integer)
@@ -97,12 +96,11 @@ class Property(Base):
     description = Column(String(220))
 
     def __init__(self, total_square, live_square, kitchen_square, price,
-                 unit_price, year, floor, floors, rooms_number, description):
+                 year, floor, floors, rooms_number, description):
         self.total_square = total_square
         self.live_square = live_square
         self.kitchen_square = kitchen_square
         self.price = price
-        self.unit_price = unit_price
         self.year = year
         self.floor = floor
         self.floors = floors
@@ -114,13 +112,12 @@ class Property(Base):
             "live_square='%s', " \
             "kitchen_square='%s', " \
             "price='%s', " \
-            "unit_price='%s', " \
             "year='%s', " \
             "floor='%s', " \
             "floors='%s', " \
             "rooms_number='%s', " \
             "description='%s')>" % (self.total_square, self.live_square,
-                                    self.kitchen_square, self.price, self.unit_price, self.year,
+                                    self.kitchen_square, self.price, self.year,
                                     self.floor, self.floors, self.rooms_number, self.description)
 
 
@@ -135,15 +132,13 @@ class Feature(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(30))
-    description = Column(String)
+    #description = Column(String)
 
-    def __init__(self, name, description):
+    def __init__(self, name):
         self.name = name
-        self.description = description
 
     def __repr__(self):
-        return "<Feature(name='%s', " \
-            "description='%s')>" % (self.name, self.description)
+        return "<Feature(name='%s')>" % (self.name)
 
 
 class Address(Base):

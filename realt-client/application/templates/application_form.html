@@ -1,0 +1,134 @@
+{% include 'parts/head.html' %}
+{% include 'parts/header.html' %}
+
+<div class="content-container">
+<div class="container">
+    <div class="row">
+      <form role="form" id="applicationForm">
+
+          <div class="col-md-12">
+              <div class="col-md-4 col-md-offset-4">
+                 <div class="form-group">
+                    <label for="applicationType">Аренда / продажа:</label>
+                        <select class="form-control" id="applicationType">
+                            <option value="rent">Аренда</option>
+                            <option value="sale">Продажа</option>
+                        </select>
+                </div>
+                  <div class="form-group">
+                    <label for="propertyType">Тип недвижимости:</label>
+                    <select class="form-control" id="propertyType">
+                        <option value="flat">Квартира</option>
+                        <option value="house">Дом</option>
+                        <option value="room">Комната</option>
+                    </select>
+                </div>
+              </div>
+          </div>
+
+        <div class="col-md-12">
+            <div class="col-md-4 col-sm-4">
+                <div class="form-group">
+                    <label for="city">Город:</label>
+                    <input type="text" class="form-control" id="city" placeholder="Название города" required>
+                </div>
+                <div class="form-group">
+                        <label for="region">Область:</label>
+                            <select class="form-control" id="region">
+                                <option>Минская</option>
+                                <option>Могилевская</option>
+                                <option>Брестская</option>
+                                <option>Гродненская</option>
+                                <option>Гомельская</option>
+                                <option>Витебская</option>
+                            </select>
+                </div>
+                <div class="form-group">
+                        <label for="street_type">Ул. / пр-т / пер-к:</label>
+                            <select class="form-control" id="street_type">
+                                <option>Улица</option>
+                                <option>Проспект</option>
+                                <option>Переулок</option>
+                            </select>
+                    </div>
+                <div class="form-group">
+                    <label for="street">Название ул. / пр. / пер.:</label>
+                    <input type="text" class="form-control" id="street" placeholder="Введите название">
+                </div>
+                <div class="form-group">
+                    <label for="house_number">Номер дома:</label>
+                    <input type="text" class="form-control" id="house_number" placeholder="Введите номер дома">
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-4">
+                <div class="form-group">
+                    <label for="total_square">Площадь общая, м<sup>2</sup>:</label>
+                    <input type="number" min="1" class="form-control" id="total_square" required>
+                </div>
+                <div class="form-group">
+                    <label for="live_square">Площадь жилая, м<sup>2</sup>:</label>
+                    <input type="number" min="1" class="form-control" id="live_square" required>
+                </div>
+                <div class="form-group">
+                    <label for="kitchen_square">Площадь кухни, м<sup>2</sup>:</label>
+                    <input type="number" min="1" class="form-control" id="kitchen_square" required>
+                </div>
+                <div class="form-group">
+                    <label for="floor">Этаж:</label>
+                    <input type="number" min="1" class="form-control" id="floor" required>
+                </div>
+                <div class="form-group">
+                    <label for="floors">Этажность:</label>
+                    <input type="number" min="1" class="form-control" id="floors" required>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-4">
+                <div class="form-group">
+                    <label for="rooms_number">Кол-во комнат:</label>
+                    <input type="number" min="1" max="100" class="form-control" id="rooms_number" required>
+                </div>
+                <div class="form-group">
+                    <label for="year">Год постройки:</label>
+                    <input type="number" min="1800" max="2016" class="form-control" id="year" required>
+                </div>
+                <div class="form-group">
+                    <label for="price">Цена, $:</label>
+                    <input type="text" class="form-control" id="price" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">Доп. сведения:</label>
+                    <textarea class="form-control" id="description" style="height: 113px;resize: none;"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <section id="features">
+        <div class="col-md-12">
+            <h3>Удобства:</h3>
+            <label><input class="checkbox-inline" name="fridge" type="checkbox" value="">Холодильник</label>
+            <label><input class="checkbox-inline" name="tv" type="checkbox" value="">Телевизор</label>
+            <label><input class="checkbox-inline" name="internet" type="checkbox" value="">Интернет</label>
+            <label><input class="checkbox-inline" name="gas_stove" type="checkbox" value="">Плита</label>
+            <label><input class="checkbox-inline" name="microwave" type="checkbox" value="">Микроволновка</label>
+
+        </div>
+
+        <div class="col-md-12">
+            <label><input class="checkbox-inline" name="washing_machine" type="checkbox" value="">Стиральная машина</label>
+            <label><input class="checkbox-inline" name="bath" type="checkbox" value="">Ванна</label>
+            <label><input class="checkbox-inline" name="balcony" type="checkbox" value="">Балкон</label>
+            <label><input class="checkbox-inline" name="furniture" type="checkbox" value="">Мебель</label>
+            <label><input class="checkbox-inline" name="condit" type="checkbox" value="">Кондиционер</label>
+        </div>
+        </section>
+      </form>
+        <button type="button" class="btn btn-primary">Разместить объявление</button>
+    </div>
+</div>
+</div>
+
+{% include 'parts/footer.html' %}
+{% include 'parts/scripts.html' %}
+<script type="text/javascript" src="{{ url_for('static', filename='js/application_form.js') }}"></script>

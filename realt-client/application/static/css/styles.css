@@ -557,6 +557,7 @@ padding: 22px 0 !important;
 
 footer {
 	background: lightgray;
+	height: 200px;
 }
 
 #usersTable td {
@@ -565,6 +566,11 @@ footer {
 
 .auth-fail {
 	margin-top: 200px;
+}
+
+.content-container {
+	margin-top: 135px;
+	min-height: 600px;
 }
 
 /*users table*/

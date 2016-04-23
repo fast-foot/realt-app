@@ -1,10 +1,16 @@
+# coding: utf-8
 from application import app
 from flask_restful import Resource, reqparse, abort
 from flask import jsonify
 from application.db.database import db_session
-from application.model.models import User
+from application.model.models import User, Region, Feature
 from sqlalchemy import and_
 from hashlib import sha1
+from application.db import seed
+
+#seed.seed_regions(db_session, Region)
+seed.seed_features(db_session, Feature)
+
 
 class RegGetUser(Resource):
     def post(self):
