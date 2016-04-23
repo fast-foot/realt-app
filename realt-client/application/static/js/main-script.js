@@ -26,11 +26,13 @@ $(document).ready(function () {
                     }
                 });
             } else {
-                $('#text_for_error').text("Проверьте правильность введенного email");
+                $('#title_for_popup').text("Ошибка ввода");
+                $('#text_for_popup').text("Проверьте правильность введенного email");
                 $('#myModal').modal();
             }
         } else {
-            $('#text_for_error').text("Пароли не совпадают");
+            $('#title_for_popup').text("Ошибка ввода");
+            $('#text_for_popup').text("Пароли не совпадают");
             $('#myModal').modal();
         }
     });
@@ -99,5 +101,19 @@ $(document).ready(function () {
             $("tr#userEditRow").eq(editedRowIndex).find('td').eq(5).text(birthday);
         });
     });
-    /*/Edit user in admin mode*/
+
+    $('#edit-private-user-btn').click(function() {
+        $.ajax({
+            url: API_SERVER + '/user/' + $('#editUserForm #user_id').val(),
+            data: $('#editUserForm').serialize(),
+            type: 'POST',
+        }).done(function(data) {
+            console.log(data);
+            $('#title_for_popup').text("Успех");
+            $('#text_for_popup').text("Редактирование прошло успешно");
+            $('#myModal').modal();
+        }).fail(function (e) {
+            console.log('error');
+        });
+    });
 });

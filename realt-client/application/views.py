@@ -50,3 +50,11 @@ def get_users():
 
     return render_template('users.html', users=data['users'])
 
+@app.route('/private', methods=['GET'])
+def private():
+    req_url = rest_api() + '/users?role=2'
+    r = requests.get(req_url)
+    data = json.loads(r.text)
+
+    return render_template('private.html', users=data['users'])
+

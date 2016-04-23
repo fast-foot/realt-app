@@ -1,0 +1,74 @@
+{% include 'parts/head.html' %}
+
+<body>
+
+{% include 'parts/header.html' %}
+
+<section id="private_form" class="margin-top-from-nav">
+    <div class="container">
+        <h1 class="heading text-center">Данные пользователя</h1>
+    </div>
+    {% for user in users %}
+        {% if user['login'] == session.login %}
+        <form id="editUserForm" role="form">
+            <div class="form-group">
+                <div class="col-lg-4 col-lg-offset-4">
+                    <label for="login">Логин:</label>
+                    <input type="text" class="form-control" id="login" name="login" size="50" value="{{ user['login'] }}" \
+                           required>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-4 col-lg-offset-4">
+                    <label for="firstname">Имя:</label>
+                    <input type="text" class="form-control" id="firstname" name="firstname" value="{{ user['firstname'] }}" \
+                       required>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-4 col-lg-offset-4">
+                    <label for="lastname">Фамилия:</label>
+                    <input type="text" class="form-control" id="lastname" name="lastname" value="{{ user['lastname'] }}" \
+                           required>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-4 col-lg-offset-4">
+                    <label for="email">Email:</label>
+                    <input type="email" class="form-control" id="email" name="email" value="{{ user['email'] }}" \
+                           required>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-4 col-lg-offset-4">
+                    <label for="phone_number">Номер телефона:</label>
+                    <input type="tel" class="form-control" id="phone_number" name="phone_number" value="{{ user['phone_number'] }}" \
+                       required>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-4 col-lg-offset-4">
+                    <label for="birthday">Дата рождения:</label>
+                    <input type="text" class="form-control" id="birthday" name="birthday" value="{{ user['birthday'] }}" \
+                       required>
+                </div>
+            </div>
+            <input type="text" hidden="true" id="user_id" value="{{ user['id'] }}"/>
+            <input type="text" hidden="true" id="selectedRowIndex"/>
+        </form>
+        {% endif %}
+    {% endfor %}
+    <div class="modal-footer">
+        <label class="col-md-4 control-label" for="edit-private-user-btn"></label>
+        <div class="col-md-4 center-block">
+            <button id="edit-private-user-btn" class="btn btn-primary center-block">Изменить</button>
+        </div>
+    </div>
+</section>
+
+{% include 'parts/popup.html' %}
+{% include 'parts/footer.html' %}
+{% include 'parts/scripts.html' %}
+
+</body>
+</html>
