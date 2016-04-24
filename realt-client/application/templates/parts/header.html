@@ -10,10 +10,10 @@
           <li class="active" id="firstLink"><a href="#home" class="scroll-link">Главная</a></li>
           <li><a href="#services" class="scroll-link">Сервисы</a></li>
           <li><a href="#aboutUs" class="scroll-link">О компании</a></li>
-          <li><a href="#signUp">Регистрация</a></li>
           {% if session.login %}
                 <li><a href="{{ url_for('logout') }}">Выйти</a></li>
           {% else %}
+                <li><a href="#signUp">Регистрация</a></li>
                 <li><a href="#logIn" data-toggle="modal" data-target="#loginModal">Войти</a></li>
           {% endif %}
         </ul>

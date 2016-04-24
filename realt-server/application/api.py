@@ -21,18 +21,23 @@ class RegGetUser(Resource):
             parser.add_argument('birthday')
             args = parser.parse_args()
 
-            new_user = User(login=args['login'].encode('utf-8'),
-                            password=sha1(args['password'].encode('utf-8')).hexdigest(),
-                            email=args['email'].encode('utf-8'),
-                            phone_number=args['phone_number'].encode('utf-8'),
-                            firstname=args['firstname'].encode('utf-8'),
-                            lastname=args['lastname'].encode('utf-8'),
-                            birthday=args['birthday'].encode('utf-8'))
+            check_exist_user = db_session.query(User).filter(User.login == args['login'].encode('utf-8')).first()
+            if check_exist_user == None:
+                new_user = User(login=args['login'].encode('utf-8'),
+                                password=sha1(args['password'].encode('utf-8')).hexdigest(),
+                                email=args['email'].encode('utf-8'),
+                                phone_number=args['phone_number'].encode('utf-8'),
+                                firstname=args['firstname'].encode('utf-8'),
+                                lastname=args['lastname'].encode('utf-8'),
+                                birthday=args['birthday'].encode('utf-8'))
 
-            db_session.add(new_user)
-            db_session.commit()
+                db_session.add(new_user)
+                db_session.commit()
 
-            return {'success': 'User is created'}
+                return {'success': 'true', 'message': 'User is created.'}
+
+            else:
+                return {'success': 'false', 'message': 'User with such login already exist.'}
 
         except Exception as e:
             return {'error': str(e)}
@@ -132,7 +137,3 @@ class EditDeleteUser(Resource):
 @app.teardown_appcontext
 def shutdown_session(exception=None):
     db_session.remove()
-
-
-#To do:
-#1. check if user exist - forbid registration with such credentials

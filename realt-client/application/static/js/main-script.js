@@ -21,10 +21,16 @@ $(document).ready(function () {
                     dataType: "json",
                     type: 'POST',
                     success: function(response) {
-                        $('.reg-form').trigger('reset');
-                        $('#popup-title').text('Регистрация прошла успешно!');
-                        $('#popup-message').text("Используйте логин и пароль для входа на сайт.");
-                        $('#myModal').modal();
+                        if (response['success'] === "true") {
+                            $('.reg-form').trigger('reset');
+                            $('#popup-title').text('Регистрация прошла успешно!');
+                            $('#popup-message').text("Используйте логин и пароль для входа на сайт.");
+                            $('#myModal').modal();
+                        } else if (response['success'] === "false") {
+                            $('#popup-title').text('Регистрация не была пройдена');
+                            $('#popup-message').text("Пользователь с таким логином уже существует.");
+                            $('#myModal').modal();
+                        }
                         console.log(response);
                     },
                     error: function(error) {
@@ -107,8 +113,8 @@ $(document).ready(function () {
             type: 'PUT',
         }).done(function(data) {
             console.log(data);
-            $('#popup-title').text('Успех');
-            $('#popup-message').text("Редактирование прошло успешно");
+            $('#popup-title').text('Данные были изменены');
+            $('#popup-message').text("Редактирование прошло успешно.");
             $('#myModal').modal();
         }).fail(function (e) {
             console.log('error');

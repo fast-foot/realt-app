@@ -62,4 +62,4 @@ def private():
     r = requests.get(req_url)
     data = json.loads(r.text)
 
-    return render_template('private.html', userdata=data['users'])
+    return render_template('edit_profile.html', userdata=data['users'])
