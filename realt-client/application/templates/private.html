@@ -4,20 +4,12 @@
 
 {% include 'parts/header.html' %}
 
-<section id="private_form" class="margin-top-from-nav">
-    <div class="container">
-        <h1 class="heading text-center">Данные пользователя</h1>
-    </div>
-    {% for user in users %}
+<div class="content-container">
+<section id="private_form">
+<h2 class="heading text-center">Данные пользователя</h2>
+    {% for user in userdata %}
         {% if user['login'] == session.login %}
-        <form id="editUserForm" role="form">
-            <div class="form-group">
-                <div class="col-lg-4 col-lg-offset-4">
-                    <label for="login">Логин:</label>
-                    <input type="text" class="form-control" id="login" name="login" size="50" value="{{ user['login'] }}" \
-                           required>
-                </div>
-            </div>
+        <form id="editPrivateUserForm" role="form">
             <div class="form-group">
                 <div class="col-lg-4 col-lg-offset-4">
                     <label for="firstname">Имя:</label>
@@ -54,17 +46,19 @@
                 </div>
             </div>
             <input type="text" hidden="true" id="user_id" value="{{ user['id'] }}"/>
-            <input type="text" hidden="true" id="selectedRowIndex"/>
+            <input type="text" hidden="true" name="role" value="{{ user['role'] }}"/>
+            <input type="text" hidden="true" name="login" value="{{ user['login'] }}"/>
         </form>
         {% endif %}
     {% endfor %}
     <div class="modal-footer">
         <label class="col-md-4 control-label" for="edit-private-user-btn"></label>
         <div class="col-md-4 center-block">
-            <button id="edit-private-user-btn" class="btn btn-primary center-block">Изменить</button>
+            <button id="edit-private-user-btn" class="btn btn-primary center-block" style="margin-top: 20px;">Изменить</button>
         </div>
     </div>
 </section>
+</div>
 
 {% include 'parts/popup.html' %}
 {% include 'parts/footer.html' %}

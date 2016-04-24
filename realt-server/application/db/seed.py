@@ -63,7 +63,7 @@ def seed_users(db_session, User):
     )
 
     for i in range(1, 21):
-        users.append(User(login='User'+str(i),
+        users.append(User(login='user'+str(i),
                           password=sha1(str(i)).hexdigest(),
                           email='u'+str(i)+'@mail.com',
                           phone_number='37529123456'+str(i),

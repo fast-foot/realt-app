@@ -102,13 +102,13 @@ $(document).ready(function () {
 
     $('#edit-private-user-btn').click(function() {
         $.ajax({
-            url: API_SERVER + '/user/' + $('#editUserForm #user_id').val(),
-            data: $('#editUserForm').serialize(),
-            type: 'POST',
+            url: API_SERVER + '/user/' + $('#editPrivateUserForm #user_id').val(),
+            data: $('#editPrivateUserForm').serialize(),
+            type: 'PUT',
         }).done(function(data) {
             console.log(data);
-            $('#title_for_popup').text("Успех");
-            $('#text_for_popup').text("Редактирование прошло успешно");
+            $('#popup-title').text('Успех');
+            $('#popup-message').text("Редактирование прошло успешно");
             $('#myModal').modal();
         }).fail(function (e) {
             console.log('error');

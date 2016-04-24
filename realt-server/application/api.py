@@ -118,7 +118,7 @@ class EditDeleteUser(Resource):
                 user.phone_number = args['phone_number'].encode('utf-8')
                 user.firstname = args['firstname'].encode('utf-8')
                 user.lastname = args['lastname'].encode('utf-8')
-                user.birthday = args['birthday']
+                user.birthday = args['birthday'].encode('utf-8')
                 user.role = args['role']
                 db_session.add(user)
                 db_session.commit()
