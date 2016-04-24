@@ -25,4 +25,19 @@ $(document).ready(function() {
             $('#applicationForm #kitchen_square').prop('disabled', true);
         }
     });
+
+    $('#sendApplicationBtn').click(function () {
+       $.ajax({
+            url: API_SERVER + '/application_data',
+            data: $('#editPrivateUserForm').serialize(),
+            type: 'PUT',
+        }).done(function(data) {
+            console.log(data);
+            $('#popup-title').text('Данные были изменены');
+            $('#popup-message').text("Редактирование прошло успешно.");
+            $('#myModal').modal();
+        }).fail(function (e) {
+            console.log('error');
+        });
+    });
 });

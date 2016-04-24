@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from application import app
 from flask import render_template, request, session
 #from flask.ext.session import Session
@@ -53,7 +54,11 @@ def get_users():
 
 @app.route('/send_application')
 def send_application():
-    return render_template('application_form.html')
+    req_url = rest_api() + '/application_data'
+    r = requests.get(req_url)
+    data = json.loads(r.text.encode('utf-8'))
+
+    return render_template('application_form.html', data=data)
 
 
 @app.route('/private', methods=['GET'])

@@ -132,7 +132,6 @@ class Feature(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(30))
-    #description = Column(String)
 
     def __init__(self, name):
         self.name = name

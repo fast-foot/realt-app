@@ -3,7 +3,7 @@ from application import app
 from flask_restful import Resource, reqparse, abort
 from flask import jsonify
 from application.db.database import db_session
-from application.model.models import User
+from application.model.models import User, PropertyType, Region, AddressType, Feature
 from sqlalchemy import and_, desc
 from hashlib import sha1
 
@@ -64,8 +64,6 @@ class RegGetUser(Resource):
 
         return jsonify(users)
 
-    def delete(self):
-        a = 2
 
 class LogIn(Resource):
     def get(self):
@@ -132,6 +130,64 @@ class EditDeleteUser(Resource):
 
             except Exception as e:
                 return {'error': str(e)}
+
+
+class AddGetDeleteEditApplication(Resource):
+    def post(self):
+        try:
+            parser = reqparse.RequestParser(bundle_errors=True)
+            parser.add_argument('login', required=True, help="Login cannot be blank!")
+            parser.add_argument('password', required=True, help="Password cannot be blank!")
+            parser.add_argument('email', required=True, help="Email cannot be blank!")
+            parser.add_argument('phone_number', required=True, help="Phone number cannot be blank!")
+            parser.add_argument('firstname', required=True, help="Firstname cannot be blank!")
+            parser.add_argument('lastname', required=True, help="Lastname cannot be blank!")
+            parser.add_argument('birthday')
+            args = parser.parse_args()
+
+        except Exception as e:
+            return {'error': str(e)}
+
+
+class DataForApplication(Resource):
+    def get(self):
+        data = {}
+        property_types = []
+        regions = []
+        address_types = []
+        features = []
+
+        for prop_type in db_session.query(PropertyType).order_by(PropertyType.id).all():
+            property_types.append({
+                "type": prop_type.type_name.encode('utf-8'),
+                "id": prop_type.id
+            })
+
+        for region in db_session.query(Region).order_by(Region.id).all():
+            regions.append({
+                "name": region.region_name,
+                "id": region.id
+            })
+
+        for address_type in db_session.query(AddressType).order_by(AddressType.id).all():
+            address_types.append({
+                "street_type": address_type.street_type,
+                "id": address_type.id
+            })
+
+        for feature in db_session.query(Feature).order_by(Feature.id).all():
+            features.append({
+                "name": feature.name,
+                "id": address_type.id
+            })
+
+        data['property_types'] = property_types
+        data['regions'] = regions
+        data['address_types'] = address_types
+        data['features'] = features
+
+        return jsonify(data)
+
 
 # remove database sessions at the end of the request or when the application shuts down
 @app.teardown_appcontext
