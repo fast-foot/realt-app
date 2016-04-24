@@ -573,6 +573,10 @@ footer {
 	min-height: 600px;
 }
 
+#sendApplicationBtn {
+	margin-top: 30px;
+}
+
 /*users table*/
 
 /*/users table*/

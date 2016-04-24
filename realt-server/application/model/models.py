@@ -13,7 +13,7 @@ class User(Base):
     phone_number = Column(String(50))
     firstname = Column(String(50))
     lastname = Column(String(50))
-    birthday = Column(String(10))
+    birthday = Column(String(20))
     role = Column(Integer) # 1 - user / 2 - admin
 
     def __init__(self, login, password, email, phone_number, firstname, lastname, birthday, role=1):

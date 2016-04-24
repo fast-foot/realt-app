@@ -9,7 +9,7 @@ from hashlib import sha1
 from application.db import seed
 
 #seed.seed_regions(db_session, Region)
-seed.seed_features(db_session, Feature)
+#seed.seed_features(db_session, Feature)
 
 
 class RegGetUser(Resource):

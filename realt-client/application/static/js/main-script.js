@@ -105,7 +105,9 @@ $(document).ready(function () {
         });
 
         if (usersIdToDelete === "") {
-            alert('Не выбран пользователь');
+            $('#popup-title').text('Не выбран пользователь');
+            $('#popup-message').text("Для удаления необходимо выбрать хотя бы одного пользователя");
+            $('#myModal').modal();
         }
         else {
             usersIdToDelete = usersIdToDelete.slice(0, usersIdToDelete.length - 1);
