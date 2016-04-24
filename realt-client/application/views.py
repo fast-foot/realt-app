@@ -41,6 +41,7 @@ def logout():
     session.clear()
     return render_template('index.html')
 
+
 @app.route('/users', methods=['GET'])
 def get_users():
     req_url = rest_api() + '/users?role=' + str(session['role'])
@@ -49,6 +50,16 @@ def get_users():
 
     return render_template('users.html', users=data['users'])
 
+
 @app.route('/send_application')
 def send_application():
     return render_template('application_form.html')
+
+
+@app.route('/private', methods=['GET'])
+def private():
+    req_url = rest_api() + '/users?role=2'
+    r = requests.get(req_url)
+    data = json.loads(r.text)
+
+    return render_template('private.html', users=data['users'])

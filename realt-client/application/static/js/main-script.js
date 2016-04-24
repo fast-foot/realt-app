@@ -82,6 +82,7 @@ $(document).ready(function () {
             var email = $('#editUserForm #email').val();
             var phone_number = $('#editUserForm #phone_number').val();
             var birthday = $('#editUserForm #birthday').val();
+            var role = $('input[name=role]:checked').val();
             var editedRowIndex = $('#editUserForm #selectedRowIndex').val();
 
             $("tr#userEditRow").eq(editedRowIndex).find('td').eq(0).text(login);
@@ -90,6 +91,27 @@ $(document).ready(function () {
             $("tr#userEditRow").eq(editedRowIndex).find('td').eq(3).text(email);
             $("tr#userEditRow").eq(editedRowIndex).find('td').eq(4).text(phone_number);
             $("tr#userEditRow").eq(editedRowIndex).find('td').eq(5).text(birthday);
+            if(role == 1){
+                $("tr#userEditRow").eq(editedRowIndex).find('td').eq(7).text("Пользователь");
+            }
+            else{
+                $("tr#userEditRow").eq(editedRowIndex).find('td').eq(7).text("Администратор");
+            }
+        });
+    });
+
+    $('#edit-private-user-btn').click(function() {
+        $.ajax({
+            url: API_SERVER + '/user/' + $('#editUserForm #user_id').val(),
+            data: $('#editUserForm').serialize(),
+            type: 'POST',
+        }).done(function(data) {
+            console.log(data);
+            $('#title_for_popup').text("Успех");
+            $('#text_for_popup').text("Редактирование прошло успешно");
+            $('#myModal').modal();
+        }).fail(function (e) {
+            console.log('error');
         });
     });
 

@@ -3,13 +3,9 @@ from application import app
 from flask_restful import Resource, reqparse, abort
 from flask import jsonify
 from application.db.database import db_session
-from application.model.models import User, Region, Feature
-from sqlalchemy import and_
+from application.model.models import User
+from sqlalchemy import and_, desc
 from hashlib import sha1
-from application.db import seed
-
-#seed.seed_regions(db_session, Region)
-#seed.seed_features(db_session, Feature)
 
 
 class RegGetUser(Resource):
@@ -48,7 +44,7 @@ class RegGetUser(Resource):
 
         if args['role'] == 2: # admin
             users = {}
-            for user in db_session.query(User).all():
+            for user in db_session.query(User).order_by(desc(User.role)).all():
                 users.setdefault('users', []).append({'login': user.login,
                                                       'password': user.password,
                                                       'email': user.email,
@@ -114,7 +110,7 @@ class EditDeleteUser(Resource):
                 parser.add_argument('firstname', required=True, help="Firstname cannot be blank!")
                 parser.add_argument('lastname', required=True, help="Lastname cannot be blank!")
                 parser.add_argument('birthday', type=str)
-                #parser.add_argument('role', type=int)
+                parser.add_argument('role', type=int)
                 args = parser.parse_args()
 
                 user.login = args['login'].encode('utf-8')
@@ -123,7 +119,7 @@ class EditDeleteUser(Resource):
                 user.firstname = args['firstname'].encode('utf-8')
                 user.lastname = args['lastname'].encode('utf-8')
                 user.birthday = args['birthday']
-                #user.role = args['role']
+                user.role = args['role']
                 db_session.add(user)
                 db_session.commit()
 

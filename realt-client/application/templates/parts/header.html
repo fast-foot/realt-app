@@ -22,14 +22,14 @@
       <div id="login-user-nav">
         {% if session.role == 1 %}
         <ul class="nav navbar-nav" id="authUserNav">
-          <li><a href="#">Профиль</a></li>
+          <li><a href="{{ url_for('private') }}">Профиль</a></li>
           <li><a href="#">Мои объявления</a></li>
           <li><a href="{{ url_for('send_application') }}">Разместить объявление</a></li>
         </ul>
         {% endif %}
         {% if session.role == 2 %}
         <ul class="nav navbar-nav" id="authAdminNav">
-          <li><a href="#">Профиль</a></li>
+          <li><a href="{{ url_for('private') }}">Профиль</a></li>
           <li><a href="{{ url_for('get_users') }}">Просмотр пользователей</a></li>
         </ul>
         {% endif %}
