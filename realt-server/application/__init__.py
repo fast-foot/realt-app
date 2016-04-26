@@ -19,10 +19,11 @@ def after_request(response):
 
 
 from application import api
-from application.api import RegGetUser, LogIn, EditDeleteUser, DataForApplication
+from application.api import RegGetUser, LogIn, EditDeleteUser, DataForApplication, AddGetDeleteEditApplication
 
 api = Api(app)
 api.add_resource(RegGetUser, '/users')
 api.add_resource(LogIn, '/login')
 api.add_resource(EditDeleteUser, '/user/<string:id>')
 api.add_resource(DataForApplication, '/application_data')
+api.add_resource(AddGetDeleteEditApplication, '/application')

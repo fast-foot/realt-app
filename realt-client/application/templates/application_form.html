@@ -11,14 +11,14 @@
               <div class="col-md-4 col-md-offset-4">
                  <div class="form-group">
                     <label for="applicationType">Аренда / продажа:</label>
-                        <select class="form-control" id="applicationType">
+                        <select class="form-control" id="applicationType" name="applicationType">
                             <option value="rent">Аренда</option>
                             <option value="sale">Продажа</option>
                         </select>
                 </div>
                   <div class="form-group">
                     <label for="propertyType">Тип недвижимости:</label>
-                    <select class="form-control" id="propertyType">
+                    <select class="form-control" id="propertyType" name="propertyType">
 
                         {% for property_type in data['property_types'] %}
                             <option value="{{ property_type.id }}">{{ property_type.type }}</option>
@@ -33,11 +33,11 @@
             <div class="col-md-4 col-sm-4">
                 <div class="form-group">
                     <label for="city">Город:</label>
-                    <input type="text" class="form-control" id="city" placeholder="Название города" required>
+                    <input type="text" class="form-control" id="city" name="city" placeholder="Название города" required>
                 </div>
                 <div class="form-group">
                         <label for="region">Область:</label>
-                            <select class="form-control" id="region">
+                            <select class="form-control" id="region" name="region">
 
                                 {% for region in data['regions'] %}
                                     <option value="{{ region.id }}">{{ region.name }}</option>
@@ -47,7 +47,7 @@
                 </div>
                 <div class="form-group">
                         <label for="street_type">Ул. / пр-т / пер-к:</label>
-                            <select class="form-control" id="street_type">
+                            <select class="form-control" id="street_type" name="street_type">
 
                                 {% for address_type in data['address_types'] %}
                                     <option value="{{ address_type.id }}">{{ address_type.street_type }}</option>
@@ -57,65 +57,65 @@
                     </div>
                 <div class="form-group">
                     <label for="street">Название ул. / пр. / пер.:</label>
-                    <input type="text" class="form-control" id="street" placeholder="Введите название">
+                    <input type="text" class="form-control" id="street" name="street" placeholder="Введите название">
                 </div>
                 <div class="form-group">
                     <label for="house_number">Номер дома:</label>
-                    <input type="text" class="form-control" id="house_number" placeholder="Введите номер дома">
+                    <input type="text" class="form-control" id="house_number" name="house_number" placeholder="Введите номер дома">
                 </div>
             </div>
 
             <div class="col-md-4 col-sm-4">
                 <div class="form-group">
                     <label for="total_square">Площадь общая, м<sup>2</sup>:</label>
-                    <input type="number" min="1" class="form-control" id="total_square" required>
+                    <input type="number" min="1" class="form-control" name="total_square" id="total_square" required>
                 </div>
                 <div class="form-group">
                     <label for="live_square">Площадь жилая, м<sup>2</sup>:</label>
-                    <input type="number" min="1" class="form-control" id="live_square" required>
+                    <input type="number" min="1" class="form-control" name="live_square" id="live_square" required>
                 </div>
                 <div class="form-group">
                     <label for="kitchen_square">Площадь кухни, м<sup>2</sup>:</label>
-                    <input type="number" min="1" class="form-control" id="kitchen_square" required>
+                    <input type="number" min="1" class="form-control" name="kitchen_square" id="kitchen_square" required>
                 </div>
                 <div class="form-group">
                     <label for="floor">Этаж:</label>
-                    <input type="number" min="1" class="form-control" id="floor" required>
+                    <input type="number" min="1" class="form-control" name="floor" id="floor" required>
                 </div>
                 <div class="form-group">
                     <label for="floors">Этажность:</label>
-                    <input type="number" min="1" class="form-control" id="floors" required>
+                    <input type="number" min="1" class="form-control" name="floors" id="floors" required>
                 </div>
             </div>
 
             <div class="col-md-4 col-sm-4">
                 <div class="form-group">
                     <label for="rooms_number">Кол-во комнат:</label>
-                    <input type="number" min="1" max="100" class="form-control" id="rooms_number" required>
+                    <input type="number" min="1" max="100" class="form-control" name="rooms_number" id="rooms_number" required>
                 </div>
                 <div class="form-group">
                     <label for="year">Год постройки:</label>
-                    <input type="number" min="1800" max="2016" class="form-control" id="year" required>
+                    <input type="number" min="1800" max="2016" class="form-control" name="year" id="year" required>
                 </div>
                 <div class="form-group">
                     <label for="price">Цена, $:</label>
-                    <input type="text" class="form-control" id="price" required>
+                    <input type="text" class="form-control" id="price" name="price" required>
                 </div>
                 <div class="form-group">
                     <label for="description">Доп. сведения:</label>
-                    <textarea class="form-control" id="description" style="height: 113px;resize: none;"></textarea>
+                    <textarea class="form-control" name="description" id="description" style="height: 113px;resize: none;"></textarea>
                 </div>
             </div>
         </div>
 
         <div class="col-md-12">
             <div class="col-md-4 col-sm-4 col-md-offset-4 col-sm-offset-4">
-            <section id="features">
+            <section id="featuresSection">
                 <h3>Удобства:</h3>
 
                 {% for feature in data['features'] %}
                     <label>
-                        <input class="checkbox-inline" type="checkbox" value="{{ feature.id }}">{{ feature.name }}
+                        <input name="feature" class="checkbox-inline" type="checkbox" value="{{ feature.id }}">{{ feature.name }}
                     </label>
                 {% endfor %}
 
@@ -125,6 +125,7 @@
             <button type="reset" class="btn btn-info btn-block" style="margin-bottom: 30px;">Очистить форму</button>
             </div>
         </div>
+      <input hidden="hidden" type="text" name="user_id" value="{{ session.user_id }}">
       </form>
     </div>
 </div>

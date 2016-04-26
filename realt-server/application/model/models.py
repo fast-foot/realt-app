@@ -1,6 +1,7 @@
-from sqlalchemy import Column, Integer, String, Float, ForeignKey, Table
+from sqlalchemy import Column, Integer, String, Float, ForeignKey, Table, DateTime
 from sqlalchemy.orm import relationship
 from application.db.database import Base, init_db
+import datetime
 
 class User(Base):
     __tablename__ = 'users'
@@ -47,19 +48,18 @@ class Application(Base):
     address = relationship('Address', uselist=False, back_populates='application')
     property_id = Column(Integer, ForeignKey('properties.id'))
     property = relationship('Property', back_populates='application')
-    _type = Column(Integer) #sale / rent
-    status = Column(Integer)
-    add_date = Column(String(10))
+    _type = Column(String(4)) #sale / rent
+    status = Column(Integer) #0 - not considered, 1 - considered, 3 - rejected
+    created_date = Column(DateTime, default=datetime.datetime.utcnow())
 
-    def __init__(self, _type, status, add_date):
+    def __init__(self, _type, status=0):
         self._type = _type
         self.status = status
-        self.add_date = add_date
 
     def __repr__(self):
         return "<Application(type='%s', " \
             "status='%s', " \
-            "add_date='%s)>" % (self._type, self.status, self.add_date)
+            "created_date='%s)>" % (self._type, self.status, self.created_date)
 
 
 class PropertyType(Base):
@@ -76,6 +76,12 @@ class PropertyType(Base):
         return "<PropertyType(type_name='%s')>" % (self.type_name)
 
 
+properties_features = Table('properties_features', Base.metadata,
+            Column('property_id', ForeignKey('properties.id')),
+            Column('feature_id', ForeignKey('features.id'))
+)
+
+
 class Property(Base):
     __tablename__ = 'properties'
 
@@ -85,6 +91,7 @@ class Property(Base):
     address = relationship('Address', back_populates='property')
     property_type_id = Column(Integer, ForeignKey('property_types.id'))
     property_type = relationship('PropertyType', back_populates='properties')
+    features = relationship('Feature', secondary=properties_features)
     total_square = Column(Float)
     live_square = Column(Float)
     kitchen_square = Column(Float)
@@ -95,14 +102,11 @@ class Property(Base):
     rooms_number = Column(Integer)
     description = Column(String(220))
 
-    def __init__(self, total_square, live_square, kitchen_square, price,
-                 year, floor, floors, rooms_number, description):
+    def __init__(self, total_square, price, year,
+                 floors, rooms_number, description):
         self.total_square = total_square
-        self.live_square = live_square
-        self.kitchen_square = kitchen_square
         self.price = price
         self.year = year
-        self.floor = floor
         self.floors = floors
         self.rooms_number = rooms_number
         self.description = description
@@ -119,12 +123,6 @@ class Property(Base):
             "description='%s')>" % (self.total_square, self.live_square,
                                     self.kitchen_square, self.price, self.year,
                                     self.floor, self.floors, self.rooms_number, self.description)
-
-
-properties_features = Table('properties_features', Base.metadata,
-            Column('property_id', ForeignKey('properties.id')),
-            Column('feature_id', ForeignKey('features.id'))
-)
 
 
 class Feature(Base):

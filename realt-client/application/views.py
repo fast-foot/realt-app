@@ -31,6 +31,7 @@ def login_user():
         session['lastname'] = data['lastname']
         session['birthday'] = data['birthday']
         session['role'] = data['role']
+        session['user_id'] = data['user_id']
 
         return render_template('index.html')
     else:

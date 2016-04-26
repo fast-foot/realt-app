@@ -3,9 +3,10 @@ from application import app
 from flask_restful import Resource, reqparse, abort
 from flask import jsonify
 from application.db.database import db_session
-from application.model.models import User, PropertyType, Region, AddressType, Feature
+from application.model.models import User, Property, PropertyType, Region, Address, AddressType, Feature, Application
 from sqlalchemy import and_, desc
 from hashlib import sha1
+import json
 
 
 class RegGetUser(Resource):
@@ -85,7 +86,9 @@ class LogIn(Resource):
                     'firstname': user.firstname,
                     'lastname': user.lastname,
                     'birthday': user.birthday,
-                    'role': user.role}
+                    'role': user.role,
+                    'user_id': user.id
+                    }
 
 
 class EditDeleteUser(Resource):
@@ -135,15 +138,62 @@ class EditDeleteUser(Resource):
 class AddGetDeleteEditApplication(Resource):
     def post(self):
         try:
-            parser = reqparse.RequestParser(bundle_errors=True)
-            parser.add_argument('login', required=True, help="Login cannot be blank!")
-            parser.add_argument('password', required=True, help="Password cannot be blank!")
-            parser.add_argument('email', required=True, help="Email cannot be blank!")
-            parser.add_argument('phone_number', required=True, help="Phone number cannot be blank!")
-            parser.add_argument('firstname', required=True, help="Firstname cannot be blank!")
-            parser.add_argument('lastname', required=True, help="Lastname cannot be blank!")
-            parser.add_argument('birthday')
+            #empty can be: floor, live_square, kitchen_square because of disabling on client
+            parser = reqparse.RequestParser()
+            parser.add_argument('applicationType', type=str)
+            parser.add_argument('propertyType', type=int)
+            parser.add_argument('city', type=str)
+            parser.add_argument('region', type=int)
+            parser.add_argument('street_type', type=int)
+            parser.add_argument('street', type=str)
+            parser.add_argument('house_number', type=str)
+            parser.add_argument('total_square', type=str)
+            parser.add_argument('live_square', type=str)
+            parser.add_argument('kitchen_square', type=str)
+            parser.add_argument('floor', type=str)
+            parser.add_argument('floors', type=str)
+            parser.add_argument('rooms_number', type=str)
+            parser.add_argument('year', type=str)
+            parser.add_argument('price', type=str)
+            parser.add_argument('description', type=str)
+            parser.add_argument('user_id', type=str)
+            parser.add_argument('feature', action='append')
             args = parser.parse_args()
+
+            address = Address(city=args['city'], street=args['street'], house_number=args['house_number'])
+
+            address.region_id = int(args['region'])
+            address.address_type_id = int(args['street_type'])
+
+            _property = Property(total_square=args['total_square'],
+                                 price=args['price'],
+                                 year=args['year'],
+                                 floors=args['floors'],
+                                 rooms_number=args['rooms_number'],
+                                 description=args['description']
+            )
+
+            _property.live_square = float(args['live_square']) if args['live_square'] is not None else -1
+            _property.live_square = float(args['kitchen_square']) if args['kitchen_square'] is not None else -1
+            _property.live_square = int(args['floor']) if args['floor'] is not None else -1
+
+            _property.address = address
+            _property.property_type_id = int(args['propertyType'])
+
+            application = Application(_type=args['applicationType'])
+            application.user_id = args['user_id']
+            application.address = address
+            application.property = _property
+
+            if args['feature'] is not None:
+                for feature_id in args['feature']:
+                    feature = db_session.query(Feature).filter(Feature.id == int(feature_id)).first()
+                    db_session.add(feature)
+                    _property.features.append(feature)
+
+            db_session.add(address)
+            db_session.add(_property)
+            db_session.commit()
 
         except Exception as e:
             return {'error': str(e)}
@@ -178,7 +228,7 @@ class DataForApplication(Resource):
         for feature in db_session.query(Feature).order_by(Feature.id).all():
             features.append({
                 "name": feature.name,
-                "id": address_type.id
+                "id": feature.id
             })
 
         data['property_types'] = property_types

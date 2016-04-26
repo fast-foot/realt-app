@@ -2,40 +2,48 @@ $(document).ready(function() {
 
     $('#applicationType').on('change', function() {
         if ($(this).val() === "rent") {
-            $('#features').show();
-            $("#propertyType option[value='room']").removeAttr('disabled');
+            $('#featuresSection').show();
+            $("#propertyType option:eq(2)").prop('disabled', false);
         } else {
-            $('#features').hide();
-            $("#propertyType option[value='room']").attr('disabled', 'disabled');
+            $('#featuresSection').hide();
+            $("#propertyType option:eq(2)").prop('disabled', true);
+            $("#propertyType").prop('selectedIndex', 0);
+            $('#featuresSection label input[type=checkbox]').each(function() {
+                $(this).prop('checked', false);
+            });
         }
     });
 
     $('#propertyType').on('change', function() {
-        if ($(this).val() === "house") {
+        selectedProperty = $(this).find('option:selected').text();
+
+        if (selectedProperty === "Дом") {
             $('#applicationForm #floor').prop('disabled', true);
+            $('#applicationForm #floor').val('');
             $('#applicationForm #live_square').prop('disabled', false);
             $('#applicationForm #kitchen_square').prop('disabled', false);
-        } else if ($(this).val() === "flat") {
+        } else if (selectedProperty === "Квартира") {
             $('#applicationForm #floor').prop('disabled', false);
             $('#applicationForm #live_square').prop('disabled', false);
             $('#applicationForm #kitchen_square').prop('disabled', false);
         } else {
             $('#applicationForm #floor').prop('disabled', false);
             $('#applicationForm #live_square').prop('disabled', true);
+            $('#applicationForm #live_square').val('');
             $('#applicationForm #kitchen_square').prop('disabled', true);
+            $('#applicationForm #kitchen_square').val('');
         }
     });
 
     $('#sendApplicationBtn').click(function () {
+        console.log($('#applicationForm').serialize());
        $.ajax({
-            url: API_SERVER + '/application_data',
-            data: $('#editPrivateUserForm').serialize(),
-            type: 'PUT',
+            url: API_SERVER + '/application',
+            data: $('#applicationForm').serialize(),
+            type: 'POST',
         }).done(function(data) {
             console.log(data);
-            $('#popup-title').text('Данные были изменены');
-            $('#popup-message').text("Редактирование прошло успешно.");
-            $('#myModal').modal();
+
         }).fail(function (e) {
             console.log('error');
         });
