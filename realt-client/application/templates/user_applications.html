@@ -9,7 +9,7 @@
             {% if not empty_apps %}
 
                 <h3 class="heading text-center">Список моих объявлений</h3>
-                <table class="adminApplicationsTable table table-responsive table-striped table-bordered table-hover header-fixed">
+                <table class="userApplicationsTable table table-responsive table-striped table-bordered table-hover header-fixed">
                     <thead>
                         <tr>
                             <td>№</td>
@@ -20,26 +20,27 @@
                         </tr>
                     </thead>
                     {% for app in applications %}
-                        <tr class="appRowInAdminMode">
-                            <td>{{ loop.index }}</td>
+                        <tr class="appRowInUserMode">
+                            <td style="display: none;" >{{ app.id }}</td>
+                            <td data-toggle="modal" data-target=".app-content-modal">{{ loop.index }}</td>
 
                             {% if app.type == 'rent' %}
-                                <td>Аренда</td>
+                                <td data-toggle="modal" data-target=".app-content-modal">Аренда</td>
                             {% else %}
-                                <td>Продажа</td>
+                                <td data-toggle="modal" data-target=".app-content-modal">Продажа</td>
                             {% endif %}
 
-                            <td>{{ app.property_type }}</td>
+                            <td data-toggle="modal" data-target=".app-content-modal">{{ app.property_type }}</td>
 
                             {% if app.status == 0 %}
-                                <td>Не подтверждено</td>
+                                <td data-toggle="modal" data-target=".app-content-modal">Не подтверждено</td>
                             {% elif app.status == 1 %}
-                                <td>Подтверждено</td>
+                                <td data-toggle="modal" data-target=".app-content-modal">Подтверждено</td>
                             {% else %}
-                                <td>Отклонено</td>
+                                <td data-toggle="modal" data-target=".app-content-modal">Отклонено</td>
                             {% endif %}
 
-                            <td>{{ app.created_date }}</td>
+                            <td data-toggle="modal" data-target=".app-content-modal">{{ app.created_date }}</td>
                         </tr>
                     {% endfor %}
                 </table>
@@ -62,7 +63,7 @@
     </div><!--rowdiv!-->
 </div><!--container!-->
 </div>
-
+{% include 'parts/application_content.html' %}
 {% include 'parts/footer.html' %}
 {% include 'parts/scripts.html' %}
 

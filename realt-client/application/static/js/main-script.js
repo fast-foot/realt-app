@@ -179,6 +179,48 @@ $(document).ready(function () {
                 }
         });
     });
+
+    $('tr.appRowInUserMode, tr.appRowInAdminMode').click(function() {
+        var app_id = $(this).find('td:eq(0)').text();
+
+        $.ajax({
+                url: API_SERVER +'/application/' + app_id,
+                contentType: "application/x-www-form-urlencoded;charset=utf-8",
+                dataType: "json",
+                type: 'GET',
+                success: function(response) {
+                    console.log(response);
+                    $('.app-content').empty();
+                    line = "";
+                    $.each(response, function(k, v) {
+                        if (v instanceof Array) {
+                            line = "<p><strong>"+k+":</strong> ";
+
+                            for (var feature_index in v) {
+                                console.log(v[feature_index]);
+                                line += v[feature_index] + ", ";
+                            }
+
+                            line = line.slice(0, -2);
+                            line += "</p>"
+                        } else {
+                            console.log(k);
+                            if (v != null) {
+                                line = "<p><strong>"+k+":</strong> "+v+"</p>";
+                            } else {
+                                line = "<p><strong>"+k+":</strong> не указано"+"</p>";
+                            }
+                        }
+                        $('.app-content').append(line);
+                    });
+
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+        });
+
+    });
 });
 
 

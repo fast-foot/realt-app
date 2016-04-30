@@ -41,8 +41,9 @@
                     </thead>
                     {% for app in applications %}
                         <tr class="appRowInAdminMode">
-                            <td>{{ loop.index }}</td>
-                            <td>{{ app.publisher }}</td>
+                            <td style="display: none;" >{{ app.id }}</td>
+                            <td data-toggle="modal" data-target=".app-content-modal">{{ loop.index }}</td>
+                            <td data-toggle="modal" data-target=".app-content-modal">{{ app.publisher }}</td>
 
                             {% if app.type == 'rent' %}
                                 <td>Аренда</td>
@@ -50,19 +51,18 @@
                                 <td>Продажа</td>
                             {% endif %}
 
-                            <td>{{ app.property_type }}</td>
+                            <td data-toggle="modal" data-target=".app-content-modal">{{ app.property_type }}</td>
 
                             {% if app.status == 0 %}
-                                <td>Не подтверждено</td>
+                                <td data-toggle="modal" data-target=".app-content-modal">Не подтверждено</td>
                             {% elif app.status == 1 %}
-                                <td>Подтверждено</td>
+                                <td data-toggle="modal" data-target=".app-content-modal">Подтверждено</td>
                             {% else %}
-                                <td>Отклонено</td>
+                                <td data-toggle="modal" data-target=".app-content-modal">Отклонено</td>
                             {% endif %}
 
-                            <td>{{ app.created_date }}</td>
-                            <td><input type="checkbox"></td>
-                            <td style="display: none;" >{{ app.id }}</td>
+                            <td data-toggle="modal" data-target=".app-content-modal">{{ app.created_date }}</td>
+                            <td data-toggle="modal" data-target=".app-content-modal"><input type="checkbox"></td>
                         </tr>
                     {% endfor %}
                 </table>
@@ -86,20 +86,20 @@
                     {% for app in applications %}
                         {% if app.status == 1 %}
                             <tr class="appRowInAdminMode">
-                                <td>{{ loop.index }}</td>
-                                <td>{{ app.publisher }}</td>
+                                <td style="display: none;" >{{ app.id }}</td>
+                                <td data-toggle="modal" data-target=".app-content-modal">{{ loop.index }}</td>
+                                <td data-toggle="modal" data-target=".app-content-modal">{{ app.publisher }}</td>
 
                                 {% if app.type == 'rent' %}
-                                    <td>Аренда</td>
+                                    <td data-toggle="modal" data-target=".app-content-modal">Аренда</td>
                                 {% else %}
-                                    <td>Продажа</td>
+                                    <td data-toggle="modal" data-target=".app-content-modal">Продажа</td>
                                 {% endif %}
 
-                                <td>{{ app.property_type }}</td>
-                                <td>Подтверждено</td>
-                                <td>{{ app.created_date }}</td>
-                                <td><input type="checkbox"></td>
-                                <td style="display: none;" >{{ app.id }}</td>
+                                <td data-toggle="modal" data-target=".app-content-modal">{{ app.property_type }}</td>
+                                <td data-toggle="modal" data-target=".app-content-modal">Подтверждено</td>
+                                <td data-toggle="modal" data-target=".app-content-modal">{{ app.created_date }}</td>
+                                <td data-toggle="modal" data-target=".app-content-modal"><input type="checkbox"></td>
                             </tr>
                         {% endif %}
                     {% endfor %}
@@ -125,20 +125,20 @@
                     {% for app in applications %}
                         {% if app.status == 0 %}
                             <tr class="appRowInAdminMode">
-                                <td>{{ loop.index }}</td>
-                                <td>{{ app.publisher }}</td>
+                                <td style="display: none;" >{{ app.id }}</td>
+                                <td data-toggle="modal" data-target=".app-content-modal">{{ loop.index }}</td>
+                                <td data-toggle="modal" data-target=".app-content-modal">{{ app.publisher }}</td>
 
                                 {% if app.type == 'rent' %}
-                                    <td>Аренда</td>
+                                    <td data-toggle="modal" data-target=".app-content-modal">Аренда</td>
                                 {% else %}
-                                    <td>Продажа</td>
+                                    <td data-toggle="modal" data-target=".app-content-modal">Продажа</td>
                                 {% endif %}
 
-                                <td>{{ app.property_type }}</td>
-                                <td>Не подтверждено</td>
-                                <td>{{ app.created_date }}</td>
-                                <td><input type="checkbox"></td>
-                                <td style="display: none;" >{{ app.id }}</td>
+                                <td data-toggle="modal" data-target=".app-content-modal">{{ app.property_type }}</td>
+                                <td data-toggle="modal" data-target=".app-content-modal">Не подтверждено</td>
+                                <td data-toggle="modal" data-target=".app-content-modal">{{ app.created_date }}</td>
+                                <td data-toggle="modal" data-target=".app-content-modal"><input type="checkbox"></td>
                             </tr>
                         {% endif %}
                     {% endfor %}
@@ -164,20 +164,20 @@
                     {% for app in applications %}
                         {% if app.status == 2 %}
                             <tr class="appRowInAdminMode">
-                                <td>{{ loop.index }}</td>
-                                <td>{{ app.publisher }}</td>
+                                <td style="display: none;" >{{ app.id }}</td>
+                                <td data-toggle="modal" data-target=".app-content-modal">{{ loop.index }}</td>
+                                <td data-toggle="modal" data-target=".app-content-modal">{{ app.publisher }}</td>
 
                                 {% if app.type == 'rent' %}
-                                    <td>Аренда</td>
+                                    <td data-toggle="modal" data-target=".app-content-modal">Аренда</td>
                                 {% else %}
-                                    <td>Продажа</td>
+                                    <td data-toggle="modal" data-target=".app-content-modal">Продажа</td>
                                 {% endif %}
 
-                                <td>{{ app.property_type }}</td>
-                                <td>Отклонено</td>
-                                <td>{{ app.created_date }}</td>
-                                <td><input type="checkbox"></td>
-                                <td style="display: none;" >{{ app.id }}</td>
+                                <td data-toggle="modal" data-target=".app-content-modal">{{ app.property_type }}</td>
+                                <td data-toggle="modal" data-target=".app-content-modal">Отклонено</td>
+                                <td data-toggle="modal" data-target=".app-content-modal">{{ app.created_date }}</td>
+                                <td data-toggle="modal" data-target=".app-content-modal"><input type="checkbox"></td>
                             </tr>
                         {% endif %}
                     {% endfor %}
@@ -201,7 +201,7 @@
     </div><!--rowdiv!-->
 </div><!--container!-->
 </div>
-
+{% include 'parts/application_content.html' %}
 {% include 'parts/footer.html' %}
 {% include 'parts/scripts.html' %}
 

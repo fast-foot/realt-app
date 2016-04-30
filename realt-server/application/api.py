@@ -310,6 +310,43 @@ class GetApplications(Resource):
 
         return jsonify(user_applications)
 
+
+class GetEditApplication(Resource):
+
+    def get(self, id):
+
+        application = db_session.query(Application).filter(Application.id == id).first()
+
+        address = "{region} область, г. {city}, {street_type} {street}, дом {house_number}".format(
+            region=application.address.region.region_name,
+            city=application.address.city,
+            street_type=application.address.address_type.street_type,
+            street=application.address.street,
+            house_number=application.address.house_number
+        )
+
+        purpose = "Аренда" if application._type == "rent" else "Продажа"
+
+        features = []
+        for feature in application.property.features:
+            features.append(feature.name)
+
+        return jsonify({
+            'Цель': purpose,
+            'Собственность': application.property.property_type.type_name,
+            'Адрес': address,
+            'Площадь общая': application.property.total_square,
+            'Площадь жилая': application.property.live_square,
+            'Площадь кухни': application.property.kitchen_square,
+            'Этаж': application.property.floor,
+            'Этажность': application.property.floors,
+            'Кол-во комнат': application.property.rooms_number,
+            'Год постройки': application.property.year,
+            'Цена': application.property.price,
+            'Описание': application.property.description,
+            'Удобства': features
+        })
+
 # remove database sessions at the end of the request or when the application shuts down
 @app.teardown_appcontext
 def shutdown_session(exception=None):

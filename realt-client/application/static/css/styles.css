@@ -582,6 +582,13 @@ footer {
 	margin-top: 40px;
 }
 
+.userApplicationsTable td {
+	cursor: pointer;
+}
+.adminApplicationsTable td {
+	cursor: pointer;
+}
+
 /*users table*/
 
 /*/users table*/
