@@ -156,6 +156,39 @@ $(document).ready(function () {
     /*applications in admin profile*/
 
 
-
     /*/applications in admin profile*/
 });
+
+function changeApplicationStatus(status) {
+    var appIdsToEdit = "";
+
+        $("tr.appRowInAdminMode").each(function() {
+
+            if ( $(this).find('input[type=checkbox]').is(':checked') ) {
+                appIdsToEdit += $(this).find('td').eq(7).text() + ",";
+                if (status == 1) {
+                    $(this).find('td:eq(4)').text("Подтверждено");
+                } else if (status == 0) {
+                    $(this).find('td:eq(4)').text("Не подтверждено");
+                } else {
+                    $(this).find('td:eq(4)').text("Отклонено");
+                }
+            }
+        });
+
+        appIdsToEdit = appIdsToEdit.slice(0, appIdsToEdit.length - 1);
+
+        $.ajax({
+                url: API_SERVER +'/applications',
+                data: {"app_ids": appIdsToEdit, "app_status": status},
+                contentType: "application/x-www-form-urlencoded;charset=utf-8",
+                dataType: "json",
+                type: 'PUT',
+                success: function(response) {
+                    console.log(response);
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+        });
+}

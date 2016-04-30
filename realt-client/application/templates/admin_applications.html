@@ -36,10 +36,11 @@
                             <th>Тип собственности</th>
                             <th>Статус</th>
                             <th>Дата создания</th>
+                            <th>Выбрать</th>
                         </tr>
                     </thead>
                     {% for app in applications %}
-                        <tr>
+                        <tr class="appRowInAdminMode">
                             <td>{{ loop.index }}</td>
                             <td>{{ app.publisher }}</td>
 
@@ -60,6 +61,8 @@
                             {% endif %}
 
                             <td>{{ app.created_date }}</td>
+                            <td><input type="checkbox"></td>
+                            <td style="display: none;" >{{ app.id }}</td>
                         </tr>
                     {% endfor %}
                 </table>
@@ -77,11 +80,12 @@
                             <th>Тип собственности</th>
                             <th>Статус</th>
                             <th>Дата создания</th>
+                            <th>Выбрать</th>
                         </tr>
                     </thead>
                     {% for app in applications %}
                         {% if app.status == 1 %}
-                            <tr>
+                            <tr class="appRowInAdminMode">
                                 <td>{{ loop.index }}</td>
                                 <td>{{ app.publisher }}</td>
 
@@ -94,6 +98,8 @@
                                 <td>{{ app.property_type }}</td>
                                 <td>Подтверждено</td>
                                 <td>{{ app.created_date }}</td>
+                                <td><input type="checkbox"></td>
+                                <td style="display: none;" >{{ app.id }}</td>
                             </tr>
                         {% endif %}
                     {% endfor %}
@@ -113,11 +119,12 @@
                             <th>Тип собственности</th>
                             <th>Статус</th>
                             <th>Дата создания</th>
+                            <th>Выбрать</th>
                         </tr>
                     </thead>
                     {% for app in applications %}
                         {% if app.status == 0 %}
-                            <tr>
+                            <tr class="appRowInAdminMode">
                                 <td>{{ loop.index }}</td>
                                 <td>{{ app.publisher }}</td>
 
@@ -130,6 +137,8 @@
                                 <td>{{ app.property_type }}</td>
                                 <td>Не подтверждено</td>
                                 <td>{{ app.created_date }}</td>
+                                <td><input type="checkbox"></td>
+                                <td style="display: none;" >{{ app.id }}</td>
                             </tr>
                         {% endif %}
                     {% endfor %}
@@ -149,11 +158,12 @@
                             <th>Тип собственности</th>
                             <th>Статус</th>
                             <th>Дата создания</th>
+                            <th>Выбрать</th>
                         </tr>
                     </thead>
                     {% for app in applications %}
                         {% if app.status == 2 %}
-                            <tr>
+                            <tr class="appRowInAdminMode">
                                 <td>{{ loop.index }}</td>
                                 <td>{{ app.publisher }}</td>
 
@@ -166,6 +176,8 @@
                                 <td>{{ app.property_type }}</td>
                                 <td>Отклонено</td>
                                 <td>{{ app.created_date }}</td>
+                                <td><input type="checkbox"></td>
+                                <td style="display: none;" >{{ app.id }}</td>
                             </tr>
                         {% endif %}
                     {% endfor %}
@@ -176,6 +188,15 @@
         </div>
 
         </div><!--tab-content-->
+
+    <div class="col-md-12">
+        <div class="col-md-4 col-md-offset-4">
+            <button onclick="changeApplicationStatus(1)" class="btn btn-block btn-success" id="approve-btn">Подтвердить</button>
+            <button onclick="changeApplicationStatus(0)" class="btn btn-block btn-info" id="not-approve-btn">Не подтверждать</button>
+            <button onclick="changeApplicationStatus(2)" class="btn btn-block btn-danger" id="reject-btn">Отклонить</button>
+        </div>
+    </div>
+
     </div><!--rowdiv!-->
 </div><!--container!-->
 </div>

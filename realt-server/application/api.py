@@ -243,7 +243,7 @@ class DataForApplication(Resource):
         return jsonify(data)
 
 
-class GetApplications(Resource):
+class GetEditDeleteApplications(Resource):
     def get(self):
         applications = {}
         for application in db_session.query(Application).order_by(desc(Application.created_date)).all():
@@ -252,10 +252,28 @@ class GetApplications(Resource):
                 'status': application.status,
                 'created_date': application.created_date,
                 'type': application._type,
-                'property_type': application.property.property_type.type_name
+                'property_type': application.property.property_type.type_name,
+                'id': application.id
             })
 
         return jsonify(applications)
+
+    def put(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('app_ids', type=str)
+        parser.add_argument('app_status', type=int)
+        args = parser.parse_args()
+
+        ids_list = args['app_ids'].strip().split(",")
+        app_status = args['app_status']
+
+        for id in ids_list:
+            application = db_session.query(Application).filter(Application.id == int(id)).first()
+            application.status = app_status
+
+        db_session.commit()
+
+        return {'msg': 'Status of applications have been changed.'}
 
 
 # remove database sessions at the end of the request or when the application shuts down
