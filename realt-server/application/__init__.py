@@ -22,13 +22,14 @@ def after_request(response):
 
 
 from application import api
-from application.api import RegGetUser, LogIn, EditDeleteUser, DataForApplication, AddGetDeleteEditApplication
-from application.api import GetEditDeleteApplications
+from application.api import RegGetUser, LogIn, EditDeleteUser, DataForApplication, AddApplication
+from application.api import GetEditDeleteApplications, GetApplications
 
 api = Api(app)
 api.add_resource(RegGetUser, '/users')
 api.add_resource(LogIn, '/login')
 api.add_resource(EditDeleteUser, '/user/<string:id>')
 api.add_resource(DataForApplication, '/application_data')
-api.add_resource(AddGetDeleteEditApplication, '/application')
+api.add_resource(AddApplication, '/application')
+api.add_resource(GetApplications, '/applications/<int:id>')
 api.add_resource(GetEditDeleteApplications, '/applications')

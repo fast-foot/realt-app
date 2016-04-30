@@ -23,7 +23,7 @@
         {% if session.role == 1 %}
         <ul class="nav navbar-nav" id="authUserNav">
           <li><a href="{{ url_for('private') }}">Профиль</a></li>
-          <li><a href="#">Мои объявления</a></li>
+          <li><a href="{{ url_for('user_applications') }}">Мои объявления</a></li>
           <li><a href="{{ url_for('send_application') }}">Разместить объявление</a></li>
         </ul>
         {% endif %}

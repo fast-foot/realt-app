@@ -153,11 +153,36 @@ $(document).ready(function () {
 
     /*/Edit user in admin mode*/
 
-    /*applications in admin profile*/
+    $('#delete-app-btn').click(function() {
+    var appIdsToDelete = "";
 
+        $("tr.appRowInAdminMode").each(function() {
+            if ( $(this).find('input[type=checkbox]').is(':checked') ) {
+                appIdsToDelete += $(this).find('td').eq(7).text() + ",";
+                $(this).remove();
+            }
+        });
 
-    /*/applications in admin profile*/
+        appIdsToDelete = appIdsToDelete.slice(0, appIdsToDelete.length - 1);
+
+        $.ajax({
+                url: API_SERVER +'/applications',
+                data: {"app_ids": appIdsToDelete},
+                contentType: "application/x-www-form-urlencoded;charset=utf-8",
+                dataType: "json",
+                type: 'DELETE',
+                success: function(response) {
+                    console.log(response);
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+        });
+    });
 });
+
+
+/*applications in admin profile*/
 
 function changeApplicationStatus(status) {
     var appIdsToEdit = "";
@@ -192,3 +217,7 @@ function changeApplicationStatus(status) {
                 }
         });
 }
+
+
+
+/*/applications in admin profile*/

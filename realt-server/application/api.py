@@ -99,7 +99,8 @@ class EditDeleteUser(Resource):
         for id in ids_list:
             user = db_session.query(User).filter(User.id == int(id)).first()
             db_session.delete(user)
-            db_session.commit()
+
+        db_session.commit()
 
         return {'msg': 'Users have been deleted.'}
 
@@ -135,7 +136,7 @@ class EditDeleteUser(Resource):
                 return {'error': str(e)}
 
 
-class AddGetDeleteEditApplication(Resource):
+class AddApplication(Resource):
     def post(self):
         try:
             #empty can be: floor, live_square, kitchen_square because of disabling on client
@@ -258,6 +259,21 @@ class GetEditDeleteApplications(Resource):
 
         return jsonify(applications)
 
+    def delete(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('app_ids', type=str)
+        args = parser.parse_args()
+
+        ids_list = args['app_ids'].strip().split(",")
+
+        for id in ids_list:
+            application = db_session.query(Application).filter(Application.id == int(id)).first()
+            db_session.delete(application)
+
+        db_session.commit()
+
+        return {'msg': 'Applications have been deleted.'}
+
     def put(self):
         parser = reqparse.RequestParser()
         parser.add_argument('app_ids', type=str)
@@ -275,6 +291,24 @@ class GetEditDeleteApplications(Resource):
 
         return {'msg': 'Status of applications have been changed.'}
 
+
+class GetApplications(Resource):
+    def get(self, id):
+        user_applications = {}
+
+        for application in db_session.query(Application)\
+                .filter(Application.user_id == int(id))\
+                .order_by(desc(Application.created_date)).all():
+
+            user_applications.setdefault('applications', []).append({
+                'status': application.status,
+                'created_date': application.created_date,
+                'type': application._type,
+                'property_type': application.property.property_type.type_name,
+                'id': application.id
+            })
+
+        return jsonify(user_applications)
 
 # remove database sessions at the end of the request or when the application shuts down
 @app.teardown_appcontext

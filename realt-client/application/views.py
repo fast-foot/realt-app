@@ -77,3 +77,16 @@ def admin_applications():
     data = json.loads(r.text)
 
     return render_template('admin_applications.html', applications=data['applications'])
+
+@app.route('/user_applications')
+def user_applications():
+    id = str(session['user_id'])
+    req_url = rest_api() + '/applications/' + id
+
+    r = requests.get(req_url)
+    data = json.loads(r.text)
+
+    if data is None:
+        return render_template('user_applications.html', empty_apps=True)
+
+    return render_template('user_applications.html', empty_apps=False, applications=data['applications'])
