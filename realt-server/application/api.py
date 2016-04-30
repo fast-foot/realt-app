@@ -141,10 +141,10 @@ class AddGetDeleteEditApplication(Resource):
             #empty can be: floor, live_square, kitchen_square because of disabling on client
             parser = reqparse.RequestParser()
             parser.add_argument('applicationType', type=str)
-            parser.add_argument('propertyType', type=int)
+            parser.add_argument('propertyType', type=str)
             parser.add_argument('city', type=str)
-            parser.add_argument('region', type=int)
-            parser.add_argument('street_type', type=int)
+            parser.add_argument('region', type=str)
+            parser.add_argument('street_type', type=str)
             parser.add_argument('street', type=str)
             parser.add_argument('house_number', type=str)
             parser.add_argument('total_square', type=str)
@@ -160,28 +160,30 @@ class AddGetDeleteEditApplication(Resource):
             parser.add_argument('feature', action='append')
             args = parser.parse_args()
 
-            address = Address(city=args['city'], street=args['street'], house_number=args['house_number'])
+            address = Address(city=args['city'].encode('utf-8'),
+                              street=args['street'].encode('utf-8'),
+                              house_number=args['house_number'].encode('utf-8'))
 
-            address.region_id = int(args['region'])
-            address.address_type_id = int(args['street_type'])
+            address.region_id = int(args['region'].encode('utf-8'))
+            address.address_type_id = int(args['street_type'].encode('utf-8'))
 
-            _property = Property(total_square=args['total_square'],
-                                 price=args['price'],
-                                 year=args['year'],
-                                 floors=args['floors'],
-                                 rooms_number=args['rooms_number'],
-                                 description=args['description']
+            _property = Property(total_square=args['total_square'].encode('utf-8'),
+                                 price=args['price'].encode('utf-8'),
+                                 year=args['year'].encode('utf-8'),
+                                 floors=int(args['floors'].encode('utf-8')),
+                                 rooms_number=int(args['rooms_number'].encode('utf-8')),
+                                 description=args['description'].encode('utf-8')
             )
 
-            _property.live_square = float(args['live_square']) if args['live_square'] is not None else -1
-            _property.live_square = float(args['kitchen_square']) if args['kitchen_square'] is not None else -1
-            _property.live_square = int(args['floor']) if args['floor'] is not None else -1
+            _property.live_square = float(args['live_square'].encode('utf-8')) if args['live_square'] is not None else -1
+            _property.kitchen_square = float(args['kitchen_square'].encode('utf-8')) if args['kitchen_square'] is not None else -1
+            _property.floor = int(args['floor'].encode('utf-8')) if args['floor'] is not None else -1
 
             _property.address = address
-            _property.property_type_id = int(args['propertyType'])
+            _property.property_type_id = int(args['propertyType'].encode('utf-8'))
 
-            application = Application(_type=args['applicationType'])
-            application.user_id = args['user_id']
+            application = Application(_type=args['applicationType'].encode('utf-8'))
+            application.user_id = args['user_id'].encode('utf-8')
             application.address = address
             application.property = _property
 
@@ -194,6 +196,8 @@ class AddGetDeleteEditApplication(Resource):
             db_session.add(address)
             db_session.add(_property)
             db_session.commit()
+
+            return {'success': True, 'message': 'Application has been added.'}
 
         except Exception as e:
             return {'error': str(e)}
@@ -237,6 +241,21 @@ class DataForApplication(Resource):
         data['features'] = features
 
         return jsonify(data)
+
+
+class GetApplications(Resource):
+    def get(self):
+        applications = {}
+        for application in db_session.query(Application).order_by(desc(Application.created_date)).all():
+            applications.setdefault('applications', []).append({
+                'publisher': application.user.lastname + ' ' + application.user.firstname,
+                'status': application.status,
+                'created_date': application.created_date,
+                'type': application._type,
+                'property_type': application.property.property_type.type_name
+            })
+
+        return jsonify(applications)
 
 
 # remove database sessions at the end of the request or when the application shuts down

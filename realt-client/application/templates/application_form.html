@@ -1,5 +1,5 @@
 {% include 'parts/head.html' %}
-{% include 'parts/header.html' %}
+{% include 'parts/auth_user_menu.html' %}
 
 <div class="content-container">
     <h3 class="heading text-center">Форма для объявления</h3>
@@ -125,7 +125,7 @@
             <button type="reset" class="btn btn-info btn-block" style="margin-bottom: 30px;">Очистить форму</button>
             </div>
         </div>
-      <input hidden="hidden" type="text" name="user_id" value="{{ session.user_id }}">
+       <input hidden="hidden" type="text" name="user_id" value="{{ session.user_id }}">
       </form>
     </div>
 </div>

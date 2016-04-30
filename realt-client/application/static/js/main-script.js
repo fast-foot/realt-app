@@ -152,4 +152,10 @@ $(document).ready(function () {
     });
 
     /*/Edit user in admin mode*/
+
+    /*applications in admin profile*/
+
+
+
+    /*/applications in admin profile*/
 });

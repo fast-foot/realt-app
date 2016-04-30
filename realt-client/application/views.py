@@ -69,3 +69,11 @@ def private():
     data = json.loads(r.text)
 
     return render_template('edit_profile.html', userdata=data['users'])
+
+@app.route('/admin_applications')
+def admin_applications():
+    req_url = rest_api() + '/applications'
+    r = requests.get(req_url)
+    data = json.loads(r.text)
+
+    return render_template('admin_applications.html', applications=data['applications'])

@@ -40,6 +40,8 @@ $(document).ready(function() {
        $.ajax({
             url: API_SERVER + '/application',
             data: $('#applicationForm').serialize(),
+            contentType: "application/x-www-form-urlencoded;charset=utf-8",
+            dataType: "json",
             type: 'POST',
         }).done(function(data) {
             console.log(data);

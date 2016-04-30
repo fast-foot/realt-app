@@ -1,0 +1,187 @@
+{% include 'parts/head.html' %}
+{% include 'parts/auth_user_menu.html' %}
+
+<body>
+<div class="content-container">
+<div class="container">
+    <div class="row">
+
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-navbar-collapse" style="background-color: steelblue;">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar" style="background-color: white;"></span>
+                <span class="icon-bar" style="background-color: white;"></span>
+                <span class="icon-bar" style="background-color: white;"></span>
+              </button>
+            </div>
+
+        <div class="collapse navbar-collapse" id="bs-navbar-collapse">
+            <ul class="nav nav-pills head-menu red">
+                <li class="active"><a data-toggle="pill" href="#allApps">Все</a></li>
+                <li><a data-toggle="pill" href="#approvedApps">Подтвержденные</a></li>
+                <li><a data-toggle="pill" href="#notApprovedApps">Ожидают подтверждения</a></li>
+                <li><a data-toggle="pill" href="#rejectedApps">Отклоненные</a></li>
+            </ul>
+        </div>
+
+        <div class="tab-content">
+
+            <div id="allApps" class="tab-pane fade in active">
+                <table class="adminApplicationsTable table table-responsive table-striped table-bordered table-hover header-fixed">
+                    <thead>
+                        <tr>
+                            <td>№</td>
+                            <th>Пользователь</th>
+                            <th>Тип объявления</th>
+                            <th>Тип собственности</th>
+                            <th>Статус</th>
+                            <th>Дата создания</th>
+                        </tr>
+                    </thead>
+                    {% for app in applications %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ app.publisher }}</td>
+
+                            {% if app.type == 'rent' %}
+                                <td>Аренда</td>
+                            {% else %}
+                                <td>Продажа</td>
+                            {% endif %}
+
+                            <td>{{ app.property_type }}</td>
+
+                            {% if app.status == 0 %}
+                                <td>Не подтверждено</td>
+                            {% elif app.status == 1 %}
+                                <td>Подтверждено</td>
+                            {% else %}
+                                <td>Отклонено</td>
+                            {% endif %}
+
+                            <td>{{ app.created_date }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+
+
+        <div id="approvedApps" class="tab-pane fade">
+                <div class="col-md-12">
+                   <table class="adminApplicationsTable table table-responsive table-striped table-bordered table-hover header-fixed">
+                    <thead>
+                        <tr>
+                            <td>№</td>
+                            <th>Пользователь</th>
+                            <th>Тип объявления</th>
+                            <th>Тип собственности</th>
+                            <th>Статус</th>
+                            <th>Дата создания</th>
+                        </tr>
+                    </thead>
+                    {% for app in applications %}
+                        {% if app.status == 1 %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ app.publisher }}</td>
+
+                                {% if app.type == 'rent' %}
+                                    <td>Аренда</td>
+                                {% else %}
+                                    <td>Продажа</td>
+                                {% endif %}
+
+                                <td>{{ app.property_type }}</td>
+                                <td>Подтверждено</td>
+                                <td>{{ app.created_date }}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+
+
+            <div id="notApprovedApps" class="tab-pane fade">
+                <div class="col-md-12">
+                <table class="adminApplicationsTable table table-responsive table-striped table-bordered table-hover header-fixed">
+                    <thead>
+                        <tr>
+                            <td>№</td>
+                            <th>Пользователь</th>
+                            <th>Тип объявления</th>
+                            <th>Тип собственности</th>
+                            <th>Статус</th>
+                            <th>Дата создания</th>
+                        </tr>
+                    </thead>
+                    {% for app in applications %}
+                        {% if app.status == 0 %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ app.publisher }}</td>
+
+                                {% if app.type == 'rent' %}
+                                    <td>Аренда</td>
+                                {% else %}
+                                    <td>Продажа</td>
+                                {% endif %}
+
+                                <td>{{ app.property_type }}</td>
+                                <td>Не подтверждено</td>
+                                <td>{{ app.created_date }}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </table>
+                </div>
+            </div>
+
+
+            <div id="rejectedApps" class="tab-pane fade">
+                <div class="col-md-12">
+                <table class="adminApplicationsTable table table-responsive table-striped table-bordered table-hover header-fixed">
+                    <thead>
+                        <tr>
+                            <td>№</td>
+                            <th>Пользователь</th>
+                            <th>Тип объявления</th>
+                            <th>Тип собственности</th>
+                            <th>Статус</th>
+                            <th>Дата создания</th>
+                        </tr>
+                    </thead>
+                    {% for app in applications %}
+                        {% if app.status == 2 %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ app.publisher }}</td>
+
+                                {% if app.type == 'rent' %}
+                                    <td>Аренда</td>
+                                {% else %}
+                                    <td>Продажа</td>
+                                {% endif %}
+
+                                <td>{{ app.property_type }}</td>
+                                <td>Отклонено</td>
+                                <td>{{ app.created_date }}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </table>
+                </div>
+            </div>
+
+        </div>
+
+        </div><!--tab-content-->
+    </div><!--rowdiv!-->
+</div><!--container!-->
+</div>
+
+{% include 'parts/footer.html' %}
+{% include 'parts/scripts.html' %}
+
+</body>
+
