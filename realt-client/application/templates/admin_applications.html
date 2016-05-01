@@ -32,6 +32,7 @@
                         <tr>
                             <td>№</td>
                             <th>Пользователь</th>
+                            <th>Номер телефона</th>
                             <th>Тип объявления</th>
                             <th>Тип собственности</th>
                             <th>Статус</th>
@@ -44,11 +45,12 @@
                             <td style="display: none;" >{{ app.id }}</td>
                             <td data-toggle="modal" data-target=".app-content-modal">{{ loop.index }}</td>
                             <td data-toggle="modal" data-target=".app-content-modal">{{ app.publisher }}</td>
+                            <td data-toggle="modal" data-target=".app-content-modal">{{ app.phone_number }}</td>
 
                             {% if app.type == 'rent' %}
-                                <td>Аренда</td>
+                                <td data-toggle="modal" data-target=".app-content-modal">Аренда</td>
                             {% else %}
-                                <td>Продажа</td>
+                                <td data-toggle="modal" data-target=".app-content-modal">Продажа</td>
                             {% endif %}
 
                             <td data-toggle="modal" data-target=".app-content-modal">{{ app.property_type }}</td>
@@ -62,7 +64,7 @@
                             {% endif %}
 
                             <td data-toggle="modal" data-target=".app-content-modal">{{ app.created_date }}</td>
-                            <td data-toggle="modal" data-target=".app-content-modal"><input type="checkbox"></td>
+                            <td><input type="checkbox"></td>
                         </tr>
                     {% endfor %}
                 </table>
@@ -76,6 +78,7 @@
                         <tr>
                             <td>№</td>
                             <th>Пользователь</th>
+                            <th>Номер телефона</th>
                             <th>Тип объявления</th>
                             <th>Тип собственности</th>
                             <th>Статус</th>
@@ -89,6 +92,7 @@
                                 <td style="display: none;" >{{ app.id }}</td>
                                 <td data-toggle="modal" data-target=".app-content-modal">{{ loop.index }}</td>
                                 <td data-toggle="modal" data-target=".app-content-modal">{{ app.publisher }}</td>
+                                <td data-toggle="modal" data-target=".app-content-modal">{{ app.phone_number }}</td>
 
                                 {% if app.type == 'rent' %}
                                     <td data-toggle="modal" data-target=".app-content-modal">Аренда</td>
@@ -99,7 +103,7 @@
                                 <td data-toggle="modal" data-target=".app-content-modal">{{ app.property_type }}</td>
                                 <td data-toggle="modal" data-target=".app-content-modal">Подтверждено</td>
                                 <td data-toggle="modal" data-target=".app-content-modal">{{ app.created_date }}</td>
-                                <td data-toggle="modal" data-target=".app-content-modal"><input type="checkbox"></td>
+                                <td><input type="checkbox"></td>
                             </tr>
                         {% endif %}
                     {% endfor %}
@@ -115,6 +119,7 @@
                         <tr>
                             <td>№</td>
                             <th>Пользователь</th>
+                            <th>Номер телефона</th>
                             <th>Тип объявления</th>
                             <th>Тип собственности</th>
                             <th>Статус</th>
@@ -128,6 +133,7 @@
                                 <td style="display: none;" >{{ app.id }}</td>
                                 <td data-toggle="modal" data-target=".app-content-modal">{{ loop.index }}</td>
                                 <td data-toggle="modal" data-target=".app-content-modal">{{ app.publisher }}</td>
+                                <td data-toggle="modal" data-target=".app-content-modal">{{ app.phone_number }}</td>
 
                                 {% if app.type == 'rent' %}
                                     <td data-toggle="modal" data-target=".app-content-modal">Аренда</td>
@@ -138,7 +144,7 @@
                                 <td data-toggle="modal" data-target=".app-content-modal">{{ app.property_type }}</td>
                                 <td data-toggle="modal" data-target=".app-content-modal">Не подтверждено</td>
                                 <td data-toggle="modal" data-target=".app-content-modal">{{ app.created_date }}</td>
-                                <td data-toggle="modal" data-target=".app-content-modal"><input type="checkbox"></td>
+                                <td><input type="checkbox"></td>
                             </tr>
                         {% endif %}
                     {% endfor %}
@@ -154,6 +160,7 @@
                         <tr>
                             <td>№</td>
                             <th>Пользователь</th>
+                            <th>Номер телефона</th>
                             <th>Тип объявления</th>
                             <th>Тип собственности</th>
                             <th>Статус</th>
@@ -167,6 +174,7 @@
                                 <td style="display: none;" >{{ app.id }}</td>
                                 <td data-toggle="modal" data-target=".app-content-modal">{{ loop.index }}</td>
                                 <td data-toggle="modal" data-target=".app-content-modal">{{ app.publisher }}</td>
+                                <td data-toggle="modal" data-target=".app-content-modal">{{ app.phone_number }}</td>
 
                                 {% if app.type == 'rent' %}
                                     <td data-toggle="modal" data-target=".app-content-modal">Аренда</td>
@@ -177,7 +185,7 @@
                                 <td data-toggle="modal" data-target=".app-content-modal">{{ app.property_type }}</td>
                                 <td data-toggle="modal" data-target=".app-content-modal">Отклонено</td>
                                 <td data-toggle="modal" data-target=".app-content-modal">{{ app.created_date }}</td>
-                                <td data-toggle="modal" data-target=".app-content-modal"><input type="checkbox"></td>
+                                <td><input type="checkbox"></td>
                             </tr>
                         {% endif %}
                     {% endfor %}

@@ -158,11 +158,11 @@ $(document).ready(function () {
 
         $("tr.appRowInAdminMode").each(function() {
             if ( $(this).find('input[type=checkbox]').is(':checked') ) {
-                appIdsToDelete += $(this).find('td').eq(7).text() + ",";
+                appIdsToDelete += $(this).find('td').eq(0).text() + ",";
                 $(this).remove();
             }
         });
-
+        console.log('del = '+appIdsToDelete);
         appIdsToDelete = appIdsToDelete.slice(0, appIdsToDelete.length - 1);
 
         $.ajax({
@@ -232,13 +232,13 @@ function changeApplicationStatus(status) {
         $("tr.appRowInAdminMode").each(function() {
 
             if ( $(this).find('input[type=checkbox]').is(':checked') ) {
-                appIdsToEdit += $(this).find('td').eq(7).text() + ",";
+                appIdsToEdit += $(this).find('td').eq(0).text() + ",";
                 if (status == 1) {
-                    $(this).find('td:eq(4)').text("Подтверждено");
+                    $(this).find('td:eq(6)').text("Подтверждено");
                 } else if (status == 0) {
-                    $(this).find('td:eq(4)').text("Не подтверждено");
+                    $(this).find('td:eq(6)').text("Не подтверждено");
                 } else {
-                    $(this).find('td:eq(4)').text("Отклонено");
+                    $(this).find('td:eq(6)').text("Отклонено");
                 }
             }
         });

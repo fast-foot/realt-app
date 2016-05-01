@@ -254,7 +254,8 @@ class GetEditDeleteApplications(Resource):
                 'created_date': application.created_date,
                 'type': application._type,
                 'property_type': application.property.property_type.type_name,
-                'id': application.id
+                'id': application.id,
+                'phone_number': application.user.phone_number
             })
 
         return jsonify(applications)
