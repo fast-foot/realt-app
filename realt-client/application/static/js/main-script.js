@@ -206,7 +206,13 @@ $(document).ready(function () {
                         } else {
                             console.log(k);
                             if (v != null) {
-                                line = "<p><strong>"+k+":</strong> "+v+"</p>";
+                                line = "<p><strong>"+k+":</strong> "+v;
+                                if (k.indexOf("Площадь") > -1) {
+                                    line += " м<sup>2</sup>";
+                                } else if (k.indexOf("Цена") > -1) {
+                                    line += " у.е.";
+                                }
+                                line += "</p>";
                             } else {
                                 line = "<p><strong>"+k+":</strong> не указано"+"</p>";
                             }

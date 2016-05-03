@@ -6,6 +6,7 @@ from application.db.database import db_session
 from application.model.models import User, Property, PropertyType, Region, Address, AddressType, Feature, Application
 from sqlalchemy import and_, desc
 from hashlib import sha1
+from application import util
 import json
 
 
@@ -248,6 +249,13 @@ class GetEditDeleteApplications(Resource):
     def get(self):
         applications = {}
         for application in db_session.query(Application).order_by(desc(Application.created_date)).all():
+
+            address = "г. {city}, {street_type} {street}".format(
+                        city=application.address.city,
+                        street_type=application.address.address_type.street_type,
+                        street=application.address.street,
+            )
+
             applications.setdefault('applications', []).append({
                 'publisher': application.user.lastname + ' ' + application.user.firstname,
                 'status': application.status,
@@ -255,7 +263,8 @@ class GetEditDeleteApplications(Resource):
                 'type': application._type,
                 'property_type': application.property.property_type.type_name,
                 'id': application.id,
-                'phone_number': application.user.phone_number
+                'phone_number': application.user.phone_number,
+                'address': address
             })
 
         return jsonify(applications)
@@ -347,6 +356,171 @@ class GetEditApplication(Resource):
             'Описание': application.property.description,
             'Удобства': features
         })
+
+
+class GetPublishedApplications(Resource):
+    def get(self):
+        applications = {}
+        for application in db_session.query(Application)\
+                .filter(Application.status == 1) \
+                .order_by(desc(Application.created_date))\
+                .all():
+
+            address = "г. {city}, {street_type} {street}".format(
+                        city=application.address.city,
+                        street_type=application.address.address_type.street_type,
+                        street=application.address.street,
+            )
+
+            applications.setdefault('applications', []).append({
+                'publisher': application.user.lastname + ' ' + application.user.firstname,
+                'status': application.status,
+                'created_date': application.created_date,
+                'type': application._type,
+                'property_type': application.property.property_type.type_name,
+                'id': application.id,
+                'phone_number': application.user.phone_number,
+                'address': address,
+                'price': application.property.price
+            })
+
+        return jsonify(applications)
+
+
+class FilterApplications(Resource):
+    def get(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('price1', type=str)
+        parser.add_argument('price2', type=str)
+        parser.add_argument('applicationType', type=str)
+        parser.add_argument('propertyType', type=str)
+        parser.add_argument('city', type=str)
+        args = parser.parse_args()
+
+        query_state = util.check_application_filter(args)
+        applications = {}
+
+        if query_state == 1:
+            for application in db_session.query(Application)\
+                .join(Application.property)\
+                .join(Property.property_type)\
+                .join(Application.address)\
+                .filter(and_(Property.price <= float(args['price2']), Property.price >= float(args['price1'])))\
+                .filter(PropertyType.id == int(args['propertyType']))\
+                .filter(Application._type == args['applicationType'])\
+                .filter(Address.city == args['city'].encode('utf-8'))\
+                .filter(Application.status == 1)\
+                .order_by(desc(Application.created_date))\
+                .all():
+
+                address = "г. {city}, {street_type} {street}".format(
+                        city=application.address.city,
+                        street_type=application.address.address_type.street_type,
+                        street=application.address.street,
+                )
+
+                applications.setdefault('applications', []).append({
+                'publisher': application.user.lastname + ' ' + application.user.firstname,
+                'status': application.status,
+                'created_date': application.created_date,
+                'type': application._type,
+                'property_type': application.property.property_type.type_name,
+                'id': application.id,
+                'phone_number': application.user.phone_number,
+                'address': address,
+                'price': application.property.price
+            })
+
+        if query_state == 2:
+            for application in db_session.query(Application)\
+                .join(Application.property)\
+                .join(Property.property_type)\
+                .filter(PropertyType.id == args['propertyType'])\
+                .filter(Application._type == args['applicationType'])\
+                .filter(Application.status == 1)\
+                .order_by(desc(Application.created_date))\
+                .all():
+
+                address = "г. {city}, {street_type} {street}".format(
+                        city=application.address.city,
+                        street_type=application.address.address_type.street_type,
+                        street=application.address.street,
+                )
+
+                applications.setdefault('applications', []).append({
+                'publisher': application.user.lastname + ' ' + application.user.firstname,
+                'status': application.status,
+                'created_date': application.created_date,
+                'type': application._type,
+                'property_type': application.property.property_type.type_name,
+                'id': application.id,
+                'phone_number': application.user.phone_number,
+                'address': address,
+                'price': application.property.price
+            })
+
+        if query_state == 3:
+            for application in db_session.query(Application)\
+                .join(Application.property)\
+                .join(Property.property_type)\
+                .filter(and_(Property.price <= float(args['price2']), Property.price >= float(args['price1'])))\
+                .filter(PropertyType.id == args['propertyType'])\
+                .filter(Application._type == args['applicationType'])\
+                .filter(Application.status == 1)\
+                .order_by(desc(Application.created_date))\
+                .all():
+
+                address = "г. {city}, {street_type} {street}".format(
+                        city=application.address.city,
+                        street_type=application.address.address_type.street_type,
+                        street=application.address.street,
+                )
+
+                applications.setdefault('applications', []).append({
+                'publisher': application.user.lastname + ' ' + application.user.firstname,
+                'status': application.status,
+                'created_date': application.created_date,
+                'type': application._type,
+                'property_type': application.property.property_type.type_name,
+                'id': application.id,
+                'phone_number': application.user.phone_number,
+                'address': address,
+                'price': application.property.price
+            })
+
+        if query_state == 4:
+            for application in db_session.query(Application)\
+                .join(Application.property)\
+                .join(Property.property_type)\
+                .join(Application.address)\
+                .filter(PropertyType.id == args['propertyType'])\
+                .filter(Application._type == args['applicationType'])\
+                .filter(Address.city == args['city'].encode('utf-8'))\
+                .filter(Application.status == 1)\
+                .order_by(desc(Application.created_date))\
+                .all():
+
+                address = "г. {city}, {street_type} {street}".format(
+                        city=application.address.city,
+                        street_type=application.address.address_type.street_type,
+                        street=application.address.street,
+                )
+
+                applications.setdefault('applications', []).append({
+                'publisher': application.user.lastname + ' ' + application.user.firstname,
+                'status': application.status,
+                'created_date': application.created_date,
+                'type': application._type,
+                'property_type': application.property.property_type.type_name,
+                'id': application.id,
+                'phone_number': application.user.phone_number,
+                'address': address,
+                'price': application.property.price
+            })
+
+        return jsonify(applications)
+
+
 
 # remove database sessions at the end of the request or when the application shuts down
 @app.teardown_appcontext

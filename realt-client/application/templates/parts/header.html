@@ -10,7 +10,7 @@
           <li class="active" id="firstLink"><a href="#home" class="scroll-link">Главная</a></li>
           <li><a href="#services" class="scroll-link">Сервисы</a></li>
           <li><a href="#aboutUs" class="scroll-link">О компании</a></li>
-          <li><a href="" class="scroll-link" style="color: red; font-weight: 400;">Объявления</a></li>
+          <li><a href="{{ url_for('public_applications') }}" class="scroll-link" style="color: red; font-weight: 400;">Объявления</a></li>
           {% if session.login %}
                 <li><a href="{{ url_for('logout') }}">Выйти</a></li>
           {% else %}

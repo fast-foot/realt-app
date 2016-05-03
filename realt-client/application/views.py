@@ -6,13 +6,16 @@ from application.config import rest_api
 from hashlib import sha1
 import json, requests
 
+
 @app.route('/')
 def index():
     return render_template('index.html')
 
+
 @app.errorhandler(404)
 def page_not_fount(e):
     return render_template('404.html'), 404
+
 
 @app.route('/', methods=['POST'])
 def login_user():
@@ -35,7 +38,7 @@ def login_user():
 
         return render_template('index.html')
     else:
-        return  render_template('auth-fail.html')
+        return render_template('auth-fail.html')
 
 
 @app.route('/logout')
@@ -70,6 +73,7 @@ def private():
 
     return render_template('edit_profile.html', userdata=data['users'])
 
+
 @app.route('/admin_applications')
 def admin_applications():
     req_url = rest_api() + '/applications'
@@ -77,6 +81,7 @@ def admin_applications():
     data = json.loads(r.text)
 
     return render_template('admin_applications.html', applications=data['applications'])
+
 
 @app.route('/user_applications')
 def user_applications():
@@ -90,3 +95,22 @@ def user_applications():
         return render_template('user_applications.html', empty_apps=True)
 
     return render_template('user_applications.html', empty_apps=False, applications=data['applications'])
+
+
+@app.route('/public_applications')
+def public_applications():
+    req_url = rest_api() + '/published_applications'
+    r = requests.get(req_url)
+    data = json.loads(r.text)
+
+    if not data:
+        return render_template('public_applications.html', empty_apps=True)
+
+    req_url = rest_api() + '/application_data'
+    r = requests.get(req_url)
+    init_data = json.loads(r.text.encode('utf-8'))
+
+    return render_template('public_applications.html',
+                           empty_apps=False,
+                           data=init_data,
+                           applications=data['applications'])

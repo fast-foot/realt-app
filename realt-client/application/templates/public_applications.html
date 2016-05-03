@@ -1,0 +1,106 @@
+{% include 'parts/head.html' %}
+{% include 'parts/auth_user_menu.html' %}
+
+<body>
+<div class="content-container">
+<div class="container-fluid">
+    <div class="row">
+
+            {% if not empty_apps %}
+
+                <h3 class="heading text-center">Список опубликованных объявлений</h3>
+                <div class="col-md-3">
+                    <div class="panel panel-info">
+                      <div class="panel-heading">Фильтр</div>
+                      <div class="panel-body">
+                          <form role="form" id="filterForm">
+                              <ul style="list-style-type: none;">
+                                <li><strong>Цена:</strong>
+                                    от<input type="number" name="price1" style="width: 110px; text-align: center;">
+                                    до<input type="number" name="price2" style="width: 110px; text-align: center;">
+                                </li>
+
+                                <li>
+                                   <select class="form-control" id="applicationType" name="applicationType" style="width: 120px;">
+                                        <option value="rent">Аренда</option>
+                                        <option value="sale">Продажа</option>
+                                   </select>
+
+                                    <select class="form-control" id="propertyType" name="propertyType" style="width: 120px;">
+
+                                        {% for property_type in data['property_types'] %}
+                                            <option value="{{ property_type.id }}">{{ property_type.type }}</option>
+                                        {% endfor %}
+
+                                    </select>
+                                </li>
+
+                                <li><strong>Город:</strong>
+                                    <input type="text" name="city" style="width: 110px; text-align: center;">
+                                </li>
+
+                                <li>
+                                    <button id="apply-filter-btn" type="button" class="btn btn-primary">Применить</button>
+                                </li>
+                              </ul>
+                          </form>
+                      </div>
+                    </div>
+                </div>
+
+                <div class="col-md-9">
+                <table class="userApplicationsTable table table-responsive table-striped table-bordered table-hover header-fixed">
+                    <thead>
+                        <tr>
+                            <td>№</td>
+                            <th>Тип объявления</th>
+                            <th>Тип собственности</th>
+                            <th>Адрес</th>
+                            <th>Цена, у.е.</th>
+                            <th>Дата создания</th>
+                        </tr>
+                    </thead>
+                    {% for app in applications %}
+                        <tr class="appRowInUserMode">
+                            <td style="display: none;" >{{ app.id }}</td>
+                            <td data-toggle="modal" data-target=".app-content-modal">{{ loop.index }}</td>
+
+                            {% if app.type == 'rent' %}
+                                <td data-toggle="modal" data-target=".app-content-modal">Аренда</td>
+                            {% else %}
+                                <td data-toggle="modal" data-target=".app-content-modal">Продажа</td>
+                            {% endif %}
+
+                            <td data-toggle="modal" data-target=".app-content-modal">{{ app.property_type }}</td>
+                            <td data-toggle="modal" data-target=".app-content-modal">{{ app.address }}</td>
+                            <td data-toggle="modal" data-target=".app-content-modal">{{ app.price }}</td>
+                            <td data-toggle="modal" data-target=".app-content-modal">{{ app.created_date }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+                </div>
+            {% else %}
+
+                <div style="margin-top: 200px;">
+                    <div class="row">
+                        <div class="col-md-4 col-md-offset-4">
+                                <div class="panel panel-info">
+                                  <div class="panel-heading">Список объявлений пуст</div>
+                                  <div class="panel-body">На сайте объявлений нет.</div>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+
+            {% endif %}
+
+    </div><!--rowdiv!-->
+</div><!--container!-->
+</div>
+{% include 'parts/application_content.html' %}
+{% include 'parts/footer.html' %}
+{% include 'parts/scripts.html' %}
+<script type="text/javascript" src="{{ url_for('static', filename='js/public_apps.js') }}"></script>
+
+</body>
+
