@@ -177,9 +177,17 @@ class AddApplication(Resource):
                                  description=args['description'].encode('utf-8')
             )
 
-            _property.live_square = float(args['live_square'].encode('utf-8')) if args['live_square'] is not None else -1
-            _property.kitchen_square = float(args['kitchen_square'].encode('utf-8')) if args['kitchen_square'] is not None else -1
-            _property.floor = int(args['floor'].encode('utf-8')) if args['floor'] is not None else -1
+            _property.live_square = float(args['live_square'].encode('utf-8')) \
+                if args['live_square'] is not None \
+                else -1
+
+            _property.kitchen_square = float(args['kitchen_square'].encode('utf-8')) \
+                if args['kitchen_square'] is not None \
+                else -1
+
+            _property.floor = int(args['floor'].encode('utf-8')) \
+                if args['floor'] is not None \
+                else -1
 
             _property.address = address
             _property.property_type_id = int(args['propertyType'].encode('utf-8'))
@@ -408,7 +416,7 @@ class FilterApplications(Resource):
                 .filter(and_(Property.price <= float(args['price2']), Property.price >= float(args['price1'])))\
                 .filter(PropertyType.id == int(args['propertyType']))\
                 .filter(Application._type == args['applicationType'])\
-                .filter(Address.city == args['city'].encode('utf-8'))\
+                .filter(Address.city.like(args['city'].encode('utf-8')+'%'))\
                 .filter(Application.status == 1)\
                 .order_by(desc(Application.created_date))\
                 .all():
@@ -495,7 +503,7 @@ class FilterApplications(Resource):
                 .join(Application.address)\
                 .filter(PropertyType.id == args['propertyType'])\
                 .filter(Application._type == args['applicationType'])\
-                .filter(Address.city == args['city'].encode('utf-8'))\
+                .filter(Address.city.like(args['city'].encode('utf-8')+'%'))\
                 .filter(Application.status == 1)\
                 .order_by(desc(Application.created_date))\
                 .all():
