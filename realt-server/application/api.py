@@ -404,6 +404,14 @@ class GetPublishedApplications(Resource):
             })
 
         applications['app_count'] = db_session.query(Application.id).filter(Application.status == 1).count()
+        applications['rent_app_count'] = db_session.query(Application.id)\
+            .filter(Application.status == 1)\
+            .filter(Application._type == 'rent')\
+            .count()
+        applications['sale_app_count'] = db_session.query(Application.id)\
+            .filter(Application.status == 1)\
+            .filter(Application._type == 'sale')\
+            .count()
 
         return jsonify(applications)
 

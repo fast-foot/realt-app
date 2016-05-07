@@ -122,4 +122,6 @@ def public_applications():
                            empty_apps=False,
                            data=init_data,
                            applications=data['applications'],
-                           applications_count=data['app_count'])
+                           applications_count=data['app_count'],
+                           applications_sale_count=data['rent_app_count'],
+                           applications_rent_count=data['sale_app_count'])
