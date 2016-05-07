@@ -1,7 +1,7 @@
 {% include 'parts/head.html' %}
 {% include 'parts/auth_user_menu.html' %}
 
-<body>
+<body style="background: #FCFCFC">
 <div class="content-container">
 <div class="container-fluid">
     <div class="row">
@@ -20,13 +20,13 @@
                                     до<input type="number" name="price2" style="width: 110px; text-align: center;">
                                 </li>
 
-                                <li>
-                                   <select class="form-control" id="applicationType" name="applicationType" style="width: 120px;">
+                                <li style="margin-left: 70px;">
+                                   <select class="form-control" id="applicationType" name="applicationType" style="width: 109px;">
                                         <option value="rent">Аренда</option>
                                         <option value="sale">Продажа</option>
                                    </select>
 
-                                    <select class="form-control" id="propertyType" name="propertyType" style="width: 120px;">
+                                    <select class="form-control" id="propertyType" name="propertyType" style="width: 109px;">
 
                                         {% for property_type in data['property_types'] %}
                                             <option value="{{ property_type.id }}">{{ property_type.type }}</option>
@@ -36,16 +36,16 @@
                                 </li>
 
                                 <li><strong>Город:</strong>
-                                    <input type="text" name="city" id="filterCity" style="width: 110px; text-align: center;">
+                                    <input type="text" name="city" id="filterCity" style="width: 110px; text-align: center; margin-left: 9px;">
                                 </li>
                                   <li><strong>Улица:</strong>
-                                    <input type="text" name="street" id="filterStreet" style="width: 110px; text-align: center;">
+                                    <input type="text" name="street" id="filterStreet" style="width: 110px; text-align: center; margin-left: 9px;">
                                 </li>
 
 
-                                <li>
+                                <li style="margin-top: 10px;">
                                     <button id="apply-filter-btn" type="button" class="btn btn-primary">Применить</button>
-                                    <button id="reset-filter-btn" type="button" class="btn btn-default">Отменить</button>
+                                    <button id="reset-filter-btn" type="button" class="btn btn-warning">Отменить</button>
                                 </li>
                               </ul>
                           </form>
@@ -70,7 +70,7 @@
                                             <option value="byDate">Даты</option>
                                             <option value="byPopularity">Популярности</option>
                                     </select>
-                                    <button id="apply-sort-btn" type="button" class="btn btn-primary">Сортировать</button>
+                                    <button id="apply-sort-btn" type="button" class="btn btn-primary" style="margin-top: 20px;">Сортировать</button>
                               </form>
                           </div>
                         </div>
@@ -78,11 +78,11 @@
                 </div>
 
                 <div class="col-md-9">
-                Всего объявлений опубликовано: {{ applications_count }} <br>
-                На продажу: {{ applications_sale_count }} <br>
-                На аренду: {{ applications_rent_count }}
+                Всего объявлений опубликовано: <span class="badge" style="background: blue;">{{ applications_count }}</span> <br>
+                На продажу: <span class="badge" style="background: #7B00FF;">{{ applications_sale_count }}</span> <br>
+                На аренду: <span class="badge" style="background: #FFB300;">{{ applications_rent_count }}</span>
                 <table class="userApplicationsTable table table-responsive table-striped table-bordered table-hover header-fixed" id="publicApplicationsTable">
-                    <thead>
+                    <thead style="background: #C4F7FF">
                         <tr>
                             <td>№</td>
                             <th>Тип объявления</th>
