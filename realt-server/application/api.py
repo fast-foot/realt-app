@@ -308,7 +308,7 @@ class GetEditDeleteApplications(Resource):
             applications.setdefault('applications', []).append({
                 'publisher': application.user.lastname + ' ' + application.user.firstname,
                 'status': application.status,
-                'created_date': application.created_date,
+                'created_date': application.created_date.strftime("%d-%m-%Y %H:%M:%S"),
                 'type': application._type,
                 'property_type': application.property.property_type.type_name,
                 'id': application.id,
@@ -363,7 +363,7 @@ class GetApplications(Resource):
 
             user_applications.setdefault('applications', []).append({
                 'status': application.status,
-                'created_date': application.created_date,
+                'created_date': application.created_date.strftime("%d-%m-%Y %H:%M:%S"),
                 'type': application._type,
                 'property_type': application.property.property_type.type_name,
                 'id': application.id,
@@ -392,7 +392,7 @@ class GetPublishedApplications(Resource):
             applications.setdefault('applications', []).append({
                 'publisher': application.user.lastname + ' ' + application.user.firstname,
                 'status': application.status,
-                'created_date': application.created_date,
+                'created_date': application.created_date.strftime("%d-%m-%Y %H:%M:%S"),
                 'type': application._type,
                 'property_type': application.property.property_type.type_name,
                 'id': application.id,
@@ -442,7 +442,7 @@ class FilterApplications(Resource):
                 applications.setdefault('applications', []).append({
                 'publisher': application.user.lastname + ' ' + application.user.firstname,
                 'status': application.status,
-                'created_date': application.created_date,
+                'created_date': application.created_date.strftime("%d-%m-%Y %H:%M:%S"),
                 'type': application._type,
                 'property_type': application.property.property_type.type_name,
                 'id': application.id,
@@ -470,7 +470,7 @@ class FilterApplications(Resource):
                 applications.setdefault('applications', []).append({
                 'publisher': application.user.lastname + ' ' + application.user.firstname,
                 'status': application.status,
-                'created_date': application.created_date,
+                'created_date': application.created_date.strftime("%d-%m-%Y %H:%M:%S"),
                 'type': application._type,
                 'property_type': application.property.property_type.type_name,
                 'id': application.id,
@@ -499,7 +499,7 @@ class FilterApplications(Resource):
                 applications.setdefault('applications', []).append({
                 'publisher': application.user.lastname + ' ' + application.user.firstname,
                 'status': application.status,
-                'created_date': application.created_date,
+                'created_date': application.created_date.strftime("%d-%m-%Y %H:%M:%S"),
                 'type': application._type,
                 'property_type': application.property.property_type.type_name,
                 'id': application.id,
@@ -529,7 +529,7 @@ class FilterApplications(Resource):
                 applications.setdefault('applications', []).append({
                 'publisher': application.user.lastname + ' ' + application.user.firstname,
                 'status': application.status,
-                'created_date': application.created_date,
+                'created_date': application.created_date.strftime("%d-%m-%Y %H:%M:%S"),
                 'type': application._type,
                 'property_type': application.property.property_type.type_name,
                 'id': application.id,
