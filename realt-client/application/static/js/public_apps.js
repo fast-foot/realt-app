@@ -19,7 +19,12 @@ $(document).ready(function () {
     $('#apply-filter-btn').click(function () {
         console.log($('#filterForm').serialize());
 
-        $.ajax({
+        if ($('#filterCity').val() === "" && $('#filterStreet').val() != "") {
+            $('#popup-title').text('Введите название города');
+            $('#popup-message').text("Для фильтрации по названию улицы необходимо ввести название города.");
+            $('#myModal').modal();
+        } else {
+            $.ajax({
                 url: API_SERVER +'/filter_applications',
                 data: $('#filterForm').serialize(),
                 contentType: "application/x-www-form-urlencoded;charset=utf-8",
@@ -32,7 +37,8 @@ $(document).ready(function () {
                 error: function(error) {
                     console.log(error);
                 }
-        });
+            });
+        }
     });
 
     function updateApplicationsTable(response) {
@@ -50,8 +56,9 @@ $(document).ready(function () {
                var address = application['address'];
                var price = application['price'];
                var createdDate = application['created_date'];
+               var viewCount = application['view_count'];
 
-               createAppTableRow(appId, rowNumber, appType, propType, address, price, createdDate);
+               createAppTableRow(appId, rowNumber, appType, propType, address, price, createdDate, viewCount);
 
                rowNumber += 1;
            }
@@ -60,7 +67,7 @@ $(document).ready(function () {
         $('#publicApplicationsTable tbody tr td').attr('data-target', '.app-content-modal');
     }
 
-    function createAppTableRow(id, rowNumber, appType, propType, address, price, createdDate) {
+    function createAppTableRow(id, rowNumber, appType, propType, address, price, createdDate, viewCount) {
         var start = '<tr class="appRowInUserMode">';
         var idCol = '<td style="display: none;">{0}</td>'.format(id);
         var rowNumberCol = '<td>{0}</td>'.format(rowNumber);
@@ -68,6 +75,7 @@ $(document).ready(function () {
         var addressCol = '<td>{0}</td>'.format(address);
         var priceCol = '<td>{0}</td>'.format(price);
         var createdDateCol = '<td>{0}</td>'.format(createdDate);
+        var viewCountCol = '<td>{0}</td>'.format(viewCount);
         var appTypeCol = '';
 
         if (appType === 'rent') {
@@ -76,7 +84,7 @@ $(document).ready(function () {
             appTypeCol = '<td>Продажа</td>'
         }
 
-        var newRow = start + idCol + rowNumberCol + appTypeCol + propTypeCol + addressCol + priceCol + createdDateCol + '</tr>';
+        var newRow = start + idCol + rowNumberCol + appTypeCol + propTypeCol + addressCol + priceCol + createdDateCol + viewCountCol + '</tr>';
 
         $('#publicApplicationsTable tbody').append(newRow);
     }

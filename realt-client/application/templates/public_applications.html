@@ -36,8 +36,12 @@
                                 </li>
 
                                 <li><strong>Город:</strong>
-                                    <input type="text" name="city" style="width: 110px; text-align: center;">
+                                    <input type="text" name="city" id="filterCity" style="width: 110px; text-align: center;">
                                 </li>
+                                  <li><strong>Улица:</strong>
+                                    <input type="text" name="street" id="filterStreet" style="width: 110px; text-align: center;">
+                                </li>
+
 
                                 <li>
                                     <button id="apply-filter-btn" type="button" class="btn btn-primary">Применить</button>
@@ -102,6 +106,7 @@
 </div><!--container!-->
 </div>
 {% include 'parts/application_content.html' %}
+{% include 'parts/popup.html' %}
 {% include 'parts/footer.html' %}
 {% include 'parts/scripts.html' %}
 <script type="text/javascript" src="{{ url_for('static', filename='js/public_apps.js') }}"></script>

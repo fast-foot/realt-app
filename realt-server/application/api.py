@@ -254,6 +254,7 @@ class AddGetApplication(Resource):
             'Удобства': features
         })
 
+
 class DataForApplication(Resource):
     def get(self):
         data = {}
@@ -415,6 +416,7 @@ class FilterApplications(Resource):
         parser.add_argument('applicationType', type=str)
         parser.add_argument('propertyType', type=str)
         parser.add_argument('city', type=str)
+        parser.add_argument('street', type=str)
         args = parser.parse_args()
 
         query_state = util.check_application_filter(args)
@@ -429,6 +431,7 @@ class FilterApplications(Resource):
                 .filter(PropertyType.id == int(args['propertyType']))\
                 .filter(Application._type == args['applicationType'])\
                 .filter(Address.city.like(args['city'].encode('utf-8')+'%'))\
+                .filter(Address.street.like(args['street'].encode('utf-8')+'%'))\
                 .filter(Application.status == 1)\
                 .order_by(desc(Application.created_date))\
                 .all():
@@ -448,7 +451,8 @@ class FilterApplications(Resource):
                 'id': application.id,
                 'phone_number': application.user.phone_number,
                 'address': address,
-                'price': application.property.price
+                'price': application.property.price,
+                'view_count': application.view_count
             })
 
         if query_state == 2:
@@ -476,7 +480,8 @@ class FilterApplications(Resource):
                 'id': application.id,
                 'phone_number': application.user.phone_number,
                 'address': address,
-                'price': application.property.price
+                'price': application.property.price,
+                'view_count': application.view_count
             })
 
         if query_state == 3:
@@ -505,7 +510,8 @@ class FilterApplications(Resource):
                 'id': application.id,
                 'phone_number': application.user.phone_number,
                 'address': address,
-                'price': application.property.price
+                'price': application.property.price,
+                'view_count': application.view_count
             })
 
         if query_state == 4:
@@ -535,7 +541,72 @@ class FilterApplications(Resource):
                 'id': application.id,
                 'phone_number': application.user.phone_number,
                 'address': address,
-                'price': application.property.price
+                'price': application.property.price,
+                'view_count': application.view_count
+            })
+
+        if query_state == 5:
+            for application in db_session.query(Application)\
+                .join(Application.property)\
+                .join(Property.property_type)\
+                .join(Application.address)\
+                .filter(PropertyType.id == args['propertyType'])\
+                .filter(Application._type == args['applicationType'])\
+                .filter(Address.city.like(args['city'].encode('utf-8')+'%'))\
+                .filter(Address.street.like(args['street'].encode('utf-8')+'%'))\
+                .filter(Application.status == 1)\
+                .order_by(desc(Application.created_date))\
+                .all():
+
+                address = "г. {city}, {street_type} {street}".format(
+                        city=application.address.city,
+                        street_type=application.address.address_type.street_type,
+                        street=application.address.street,
+                )
+
+                applications.setdefault('applications', []).append({
+                'publisher': application.user.lastname + ' ' + application.user.firstname,
+                'status': application.status,
+                'created_date': application.created_date.strftime("%d-%m-%Y %H:%M:%S"),
+                'type': application._type,
+                'property_type': application.property.property_type.type_name,
+                'id': application.id,
+                'phone_number': application.user.phone_number,
+                'address': address,
+                'price': application.property.price,
+                'view_count': application.view_count
+            })
+
+        if query_state == 6:
+            for application in db_session.query(Application)\
+                .join(Application.property)\
+                .join(Property.property_type)\
+                .filter(and_(Property.price <= float(args['price2']), Property.price >= float(args['price1'])))\
+                .join(Application.address)\
+                .filter(PropertyType.id == args['propertyType'])\
+                .filter(Application._type == args['applicationType'])\
+                .filter(Address.city.like(args['city'].encode('utf-8')+'%'))\
+                .filter(Application.status == 1)\
+                .order_by(desc(Application.created_date))\
+                .all():
+
+                address = "г. {city}, {street_type} {street}".format(
+                        city=application.address.city,
+                        street_type=application.address.address_type.street_type,
+                        street=application.address.street,
+                )
+
+                applications.setdefault('applications', []).append({
+                'publisher': application.user.lastname + ' ' + application.user.firstname,
+                'status': application.status,
+                'created_date': application.created_date.strftime("%d-%m-%Y %H:%M:%S"),
+                'type': application._type,
+                'property_type': application.property.property_type.type_name,
+                'id': application.id,
+                'phone_number': application.user.phone_number,
+                'address': address,
+                'price': application.property.price,
+                'view_count': application.view_count
             })
 
         return jsonify(applications)
