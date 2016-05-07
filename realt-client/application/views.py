@@ -80,7 +80,12 @@ def admin_applications():
     r = requests.get(req_url)
     data = json.loads(r.text)
 
-    return render_template('admin_applications.html', applications=data['applications'])
+    if data['app_count'] == 0:
+        return render_template('admin_applications.html', empty_apps=True)
+
+    return render_template('admin_applications.html',
+                           applications=data['applications'],
+                           applications_count=data['app_count'])
 
 
 @app.route('/user_applications')
@@ -91,10 +96,13 @@ def user_applications():
     r = requests.get(req_url)
     data = json.loads(r.text)
 
-    if data is None:
+    if data['app_count'] == 0:
         return render_template('user_applications.html', empty_apps=True)
 
-    return render_template('user_applications.html', empty_apps=False, applications=data['applications'])
+    return render_template('user_applications.html',
+                           empty_apps=False,
+                           applications=data['applications'],
+                           applications_count=data['app_count'])
 
 
 @app.route('/public_applications')
@@ -103,7 +111,7 @@ def public_applications():
     r = requests.get(req_url)
     data = json.loads(r.text)
 
-    if not data:
+    if data['app_count'] == 0:
         return render_template('public_applications.html', empty_apps=True)
 
     req_url = rest_api() + '/application_data'
@@ -113,4 +121,5 @@ def public_applications():
     return render_template('public_applications.html',
                            empty_apps=False,
                            data=init_data,
-                           applications=data['applications'])
+                           applications=data['applications'],
+                           applications_count=data['app_count'])

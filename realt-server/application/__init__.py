@@ -4,6 +4,7 @@ from application.db.database import db_session
 from application.db.seed import main_seed
 from application.model import models
 import sys
+
 #main_seed(db_session, models)
 
 app = Flask(__name__)
@@ -22,8 +23,8 @@ def after_request(response):
 
 
 from application import api
-from application.api import RegGetUser, LogIn, EditDeleteUser, DataForApplication, AddApplication
-from application.api import GetEditDeleteApplications, GetApplications, GetEditApplication, GetPublishedApplications
+from application.api import RegGetUser, LogIn, EditDeleteUser, DataForApplication, AddGetApplication
+from application.api import GetEditDeleteApplications, GetApplications, GetPublishedApplications
 from application.api import FilterApplications
 
 api = Api(app)
@@ -31,8 +32,8 @@ api.add_resource(RegGetUser, '/users')
 api.add_resource(LogIn, '/login')
 api.add_resource(EditDeleteUser, '/user/<string:id>') # string, because multiple deletion
 api.add_resource(DataForApplication, '/application_data')
-api.add_resource(AddApplication, '/application')
-api.add_resource(GetEditApplication, '/application/<int:id>') # here id = application_id
+api.add_resource(AddGetApplication, '/application')
+#api.add_resource(GetApplication, '/application/<int:id>/') # here id = application_id
 api.add_resource(GetApplications, '/applications/<int:id>') # here id = user_id
 api.add_resource(GetEditDeleteApplications, '/applications')
 api.add_resource(GetPublishedApplications, '/published_applications')

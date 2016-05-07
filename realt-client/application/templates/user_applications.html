@@ -9,6 +9,7 @@
             {% if not empty_apps %}
 
                 <h3 class="heading text-center">Список моих объявлений</h3>
+                Всего объявлений подано: {{ applications_count }}
                 <table class="userApplicationsTable table table-responsive table-striped table-bordered table-hover header-fixed">
                     <thead>
                         <tr>
@@ -17,6 +18,7 @@
                             <th>Тип собственности</th>
                             <th>Статус</th>
                             <th>Дата создания</th>
+                            <th>Кол-во просмотров</th>
                         </tr>
                     </thead>
                     {% for app in applications %}
@@ -41,10 +43,11 @@
                             {% endif %}
 
                             <td data-toggle="modal" data-target=".app-content-modal">{{ app.created_date }}</td>
+                            <td data-toggle="modal" data-target=".app-content-modal">{{ app.view_count }}</td>
                         </tr>
                     {% endfor %}
                 </table>
-
+                <input type="text" id="viewed_user_id" hidden="true" value="{{ session.user_id }}">
             {% else %}
 
                 <div style="margin-top: 200px;">

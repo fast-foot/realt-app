@@ -50,16 +50,19 @@ class Application(Base):
     property = relationship('Property', back_populates='application')
     _type = Column(String(4)) #sale / rent
     status = Column(Integer) #0 - not considered, 1 - considered, 3 - rejected
+    view_count = Column(Integer)
     created_date = Column(DateTime, default=datetime.datetime.utcnow())
 
-    def __init__(self, _type, status=0):
+    def __init__(self, _type, view_count=0, status=0):
         self._type = _type
+        self.view_count = view_count
         self.status = status
 
     def __repr__(self):
         return "<Application(type='%s', " \
             "status='%s', " \
-            "created_date='%s)>" % (self._type, self.status, self.created_date)
+            "view_count='%s', " \
+            "created_date='%s)>" % (self._type, self.status, self.view_count, self.created_date)
 
 
 class PropertyType(Base):

@@ -49,6 +49,7 @@
                 </div>
 
                 <div class="col-md-9">
+                Всего объявлений опубликовано: {{ applications_count }}
                 <table class="userApplicationsTable table table-responsive table-striped table-bordered table-hover header-fixed" id="publicApplicationsTable">
                     <thead>
                         <tr>
@@ -58,6 +59,7 @@
                             <th>Адрес</th>
                             <th>Цена, у.е.</th>
                             <th>Дата создания</th>
+                            <th>Кол-во просмотров</th>
                         </tr>
                     </thead>
                     {% for app in applications %}
@@ -75,9 +77,11 @@
                             <td data-toggle="modal" data-target=".app-content-modal">{{ app.address }}</td>
                             <td data-toggle="modal" data-target=".app-content-modal">{{ app.price }}</td>
                             <td data-toggle="modal" data-target=".app-content-modal">{{ app.created_date }}</td>
+                            <td data-toggle="modal" data-target=".app-content-modal">{{ app.view_count }}</td>
                         </tr>
                     {% endfor %}
                 </table>
+                <input type="text" id="viewed_user_id" hidden="hidden" value="-1">
                 </div>
             {% else %}
 

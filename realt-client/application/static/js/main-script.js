@@ -182,9 +182,11 @@ $(document).ready(function () {
 
     $('tr.appRowInUserMode, tr.appRowInAdminMode').click(function() {
         var app_id = $(this).find('td:eq(0)').text();
+        var user_id = $('#viewed_user_id').val();
 
         $.ajax({
-                url: API_SERVER +'/application/' + app_id,
+                url: API_SERVER +'/application',
+                data: {"app_id": app_id, "viewed_user_id": user_id},
                 contentType: "application/x-www-form-urlencoded;charset=utf-8",
                 dataType: "json",
                 type: 'GET',
@@ -218,6 +220,10 @@ $(document).ready(function () {
                             }
                         }
                         $('.app-content').append(line);
+                        if (k.indexOf("Цена") > -1) {
+                            line = "<p><strong>Цена за 1 м<sup>2</sup>:</strong> " + (v / response['Площадь общая']).toFixed(2) + " у.е";
+                            $('.app-content').append(line);
+                        }
                     });
 
                 },

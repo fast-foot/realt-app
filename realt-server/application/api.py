@@ -137,7 +137,7 @@ class EditDeleteUser(Resource):
                 return {'error': str(e)}
 
 
-class AddApplication(Resource):
+class AddGetApplication(Resource):
     def post(self):
         try:
             #empty can be: floor, live_square, kitchen_square because of disabling on client
@@ -212,6 +212,47 @@ class AddApplication(Resource):
         except Exception as e:
             return {'error': str(e)}
 
+    def get(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('app_id', type=int)
+        parser.add_argument('viewed_user_id', type=int) # id of the user who view an application
+        args = parser.parse_args()
+
+        application = db_session.query(Application).filter(Application.id == args['app_id']).first()
+
+        if application.user_id != args['viewed_user_id']:
+            application.view_count += 1
+            db_session.commit()
+
+        address = "{region} область, г. {city}, {street_type} {street}, дом {house_number}".format(
+            region=application.address.region.region_name,
+            city=application.address.city,
+            street_type=application.address.address_type.street_type,
+            street=application.address.street,
+            house_number=application.address.house_number
+        )
+
+        purpose = "Аренда" if application._type == "rent" else "Продажа"
+
+        features = []
+        for feature in application.property.features:
+            features.append(feature.name)
+
+        return jsonify({
+            'Цель': purpose,
+            'Собственность': application.property.property_type.type_name,
+            'Адрес': address,
+            'Площадь общая': application.property.total_square,
+            'Площадь жилая': application.property.live_square,
+            'Площадь кухни': application.property.kitchen_square,
+            'Этаж': application.property.floor,
+            'Этажность': application.property.floors,
+            'Кол-во комнат': application.property.rooms_number,
+            'Год постройки': application.property.year,
+            'Цена': application.property.price,
+            'Описание': application.property.description,
+            'Удобства': features
+        })
 
 class DataForApplication(Resource):
     def get(self):
@@ -275,6 +316,8 @@ class GetEditDeleteApplications(Resource):
                 'address': address
             })
 
+        applications['app_count'] = db_session.query(Application.id).count()
+
         return jsonify(applications)
 
     def delete(self):
@@ -316,54 +359,20 @@ class GetApplications(Resource):
 
         for application in db_session.query(Application)\
                 .filter(Application.user_id == int(id))\
-                .order_by(desc(Application.created_date)).all():
+                .order_by(desc(Application.view_count)).all():
 
             user_applications.setdefault('applications', []).append({
                 'status': application.status,
                 'created_date': application.created_date,
                 'type': application._type,
                 'property_type': application.property.property_type.type_name,
-                'id': application.id
+                'id': application.id,
+                'view_count': application.view_count
             })
 
+        user_applications['app_count'] = db_session.query(Application.id).filter(Application.user_id == int(id)).count()
+
         return jsonify(user_applications)
-
-
-class GetEditApplication(Resource):
-
-    def get(self, id):
-
-        application = db_session.query(Application).filter(Application.id == id).first()
-
-        address = "{region} область, г. {city}, {street_type} {street}, дом {house_number}".format(
-            region=application.address.region.region_name,
-            city=application.address.city,
-            street_type=application.address.address_type.street_type,
-            street=application.address.street,
-            house_number=application.address.house_number
-        )
-
-        purpose = "Аренда" if application._type == "rent" else "Продажа"
-
-        features = []
-        for feature in application.property.features:
-            features.append(feature.name)
-
-        return jsonify({
-            'Цель': purpose,
-            'Собственность': application.property.property_type.type_name,
-            'Адрес': address,
-            'Площадь общая': application.property.total_square,
-            'Площадь жилая': application.property.live_square,
-            'Площадь кухни': application.property.kitchen_square,
-            'Этаж': application.property.floor,
-            'Этажность': application.property.floors,
-            'Кол-во комнат': application.property.rooms_number,
-            'Год постройки': application.property.year,
-            'Цена': application.property.price,
-            'Описание': application.property.description,
-            'Удобства': features
-        })
 
 
 class GetPublishedApplications(Resource):
@@ -371,7 +380,7 @@ class GetPublishedApplications(Resource):
         applications = {}
         for application in db_session.query(Application)\
                 .filter(Application.status == 1) \
-                .order_by(desc(Application.created_date))\
+                .order_by(desc(Application.view_count))\
                 .all():
 
             address = "г. {city}, {street_type} {street}".format(
@@ -389,8 +398,11 @@ class GetPublishedApplications(Resource):
                 'id': application.id,
                 'phone_number': application.user.phone_number,
                 'address': address,
-                'price': application.property.price
+                'price': application.property.price,
+                'view_count': application.view_count
             })
+
+        applications['app_count'] = db_session.query(Application.id).filter(Application.status == 1).count()
 
         return jsonify(applications)
 
