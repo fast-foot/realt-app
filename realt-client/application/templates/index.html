@@ -74,22 +74,9 @@
 
         </div>
   </div>
-</section> 
-
-
-<section id="signUp" class="page-section colord">
-  <div class="container">
-    <div class="row">
-        {% if not session.login %}
-            <div class="hero-text2">
-              <h3>Регистрация на сайте</h3>
-              </div>
-            {% include 'parts/sign-up.html' %}
-        {% endif %}
-    </div>
-      </div>
-  <!--/.container-->
 </section>
+
+{% include 'parts/sign-up.html' %}
 
 {% include 'parts/popup.html' %}
 {% include 'parts/footer.html' %}
