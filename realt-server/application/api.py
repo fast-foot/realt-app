@@ -421,7 +421,7 @@ class FilterApplications(Resource):
 
         query_state = util.check_application_filter(args)
         applications = {}
-
+        print(query_state)
         if query_state == 1:
             for application in db_session.query(Application)\
                 .join(Application.property)\
@@ -611,6 +611,113 @@ class FilterApplications(Resource):
 
         return jsonify(applications)
 
+
+class SortApplications(Resource):
+
+    def get(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('sort_by', type=str)
+        parser.add_argument('order_by', type=str)
+        args = parser.parse_args()
+
+        applications_result = {}
+
+        if args['sort_by'] == "byPrice":
+            applications = db_session.query(Application)\
+                            .join(Application.property)\
+                            .filter(Application.status == 1)\
+                            .order_by(desc(Property.price))\
+                            .all() if args['order_by'] == 'desc' else \
+                           db_session.query(Application)\
+                            .join(Application.property)\
+                            .filter(Application.status == 1)\
+                            .order_by(Property.price)\
+                            .all()
+
+            for application in applications:
+
+                address = "г. {city}, {street_type} {street}".format(
+                        city=application.address.city,
+                        street_type=application.address.address_type.street_type,
+                        street=application.address.street,
+                )
+
+                applications_result.setdefault('applications', []).append({
+                'publisher': application.user.lastname + ' ' + application.user.firstname,
+                'status': application.status,
+                'created_date': application.created_date.strftime("%d-%m-%Y %H:%M:%S"),
+                'type': application._type,
+                'property_type': application.property.property_type.type_name,
+                'id': application.id,
+                'phone_number': application.user.phone_number,
+                'address': address,
+                'price': application.property.price,
+                'view_count': application.view_count
+            })
+
+        elif args['sort_by'] == "byDate":
+            applications = db_session.query(Application)\
+                            .filter(Application.status == 1)\
+                            .order_by(desc(Application.created_date))\
+                            .all() if args['order_by'] == 'desc' else \
+                            db_session.query(Application)\
+                            .filter(Application.status == 1)\
+                            .order_by(Application.created_date)\
+                            .all()
+
+            for application in applications:
+
+                address = "г. {city}, {street_type} {street}".format(
+                        city=application.address.city,
+                        street_type=application.address.address_type.street_type,
+                        street=application.address.street,
+                )
+
+                applications_result.setdefault('applications', []).append({
+                'publisher': application.user.lastname + ' ' + application.user.firstname,
+                'status': application.status,
+                'created_date': application.created_date.strftime("%d-%m-%Y %H:%M:%S"),
+                'type': application._type,
+                'property_type': application.property.property_type.type_name,
+                'id': application.id,
+                'phone_number': application.user.phone_number,
+                'address': address,
+                'price': application.property.price,
+                'view_count': application.view_count
+            })
+
+        elif args['sort_by'] == "byPopularity":
+            applications = db_session.query(Application)\
+                .filter(Application.status == 1)\
+                .order_by(desc(Application.view_count))\
+                .all() if args['order_by'] == 'desc' else \
+                db_session.query(Application)\
+                .filter(Application.status == 1)\
+                .order_by(Application.view_count)\
+                .all()
+
+            for application in applications:
+
+                address = "г. {city}, {street_type} {street}".format(
+                        city=application.address.city,
+                        street_type=application.address.address_type.street_type,
+                        street=application.address.street,
+                )
+
+                applications_result.setdefault('applications', []).append({
+                'publisher': application.user.lastname + ' ' + application.user.firstname,
+                'status': application.status,
+                'created_date': application.created_date.strftime("%d-%m-%Y %H:%M:%S"),
+                'type': application._type,
+                'property_type': application.property.property_type.type_name,
+                'id': application.id,
+                'phone_number': application.user.phone_number,
+                'address': address,
+                'price': application.property.price,
+                'view_count': application.view_count
+            })
+
+        return jsonify(applications_result)
 
 
 # remove database sessions at the end of the request or when the application shuts down

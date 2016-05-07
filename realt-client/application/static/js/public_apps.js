@@ -41,6 +41,43 @@ $(document).ready(function () {
         }
     });
 
+    $('#apply-sort-btn').click(function () {
+        console.log($('#sortForm').serialize())
+        $.ajax({
+                url: API_SERVER +'/sort_applications',
+                data: $('#sortForm').serialize(),
+                contentType: "application/x-www-form-urlencoded;charset=utf-8",
+                dataType: "json",
+                type: 'GET',
+                success: function(response) {
+                    console.log(response);
+                    updateApplicationsTable(response);
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+        });
+    });
+
+    $('#reset-filter-btn').click(function () {
+        resetFilterInputs();
+
+        $.ajax({
+                url: API_SERVER +'/filter_applications',
+                data: $('#filterForm').serialize(),
+                contentType: "application/x-www-form-urlencoded;charset=utf-8",
+                dataType: "json",
+                type: 'GET',
+                success: function(response) {
+                    console.log(response);
+                    updateApplicationsTable(response);
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+        });
+    });
+
     function updateApplicationsTable(response) {
         $('#publicApplicationsTable').find("tr:gt(0)").remove();
 
@@ -87,5 +124,12 @@ $(document).ready(function () {
         var newRow = start + idCol + rowNumberCol + appTypeCol + propTypeCol + addressCol + priceCol + createdDateCol + viewCountCol + '</tr>';
 
         $('#publicApplicationsTable tbody').append(newRow);
+    }
+
+    function resetFilterInputs() {
+        $('#filterForm input[name="price1"]').val("");
+        $('#filterForm input[name="price2"]').val("");
+        $('#filterForm input[name="city"]').val("");
+        $('#filterForm input[name="street"]').val("");
     }
 });

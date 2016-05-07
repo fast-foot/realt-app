@@ -25,7 +25,7 @@ def after_request(response):
 from application import api
 from application.api import RegGetUser, LogIn, EditDeleteUser, DataForApplication, AddGetApplication
 from application.api import GetEditDeleteApplications, GetApplications, GetPublishedApplications
-from application.api import FilterApplications
+from application.api import FilterApplications, SortApplications
 
 api = Api(app)
 api.add_resource(RegGetUser, '/users')
@@ -38,3 +38,4 @@ api.add_resource(GetApplications, '/applications/<int:id>') # here id = user_id
 api.add_resource(GetEditDeleteApplications, '/applications')
 api.add_resource(GetPublishedApplications, '/published_applications')
 api.add_resource(FilterApplications, '/filter_applications')
+api.add_resource(SortApplications, '/sort_applications')

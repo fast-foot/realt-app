@@ -45,11 +45,36 @@
 
                                 <li>
                                     <button id="apply-filter-btn" type="button" class="btn btn-primary">Применить</button>
+                                    <button id="reset-filter-btn" type="button" class="btn btn-default">Отменить</button>
                                 </li>
                               </ul>
                           </form>
                       </div>
                     </div>
+
+                        <div class="panel panel-success">
+                          <div class="panel-heading">Сортировка</div>
+                          <div class="panel-body">
+                              <form role="form" id="sortForm">
+                                    Сортировать по:
+
+                                    <div class="radio">
+                                        <label><input type="radio" checked="true" name="order_by" value="esc">Возрастанию</label>
+                                    </div>
+                                    <div class="radio">
+                                        <label><input type="radio" name="order_by" value="desc">Убыванию</label>
+                                    </div>
+
+                                    <select class="form-control" name="sort_by" style="width: 120px;">
+                                            <option value="byPrice">Цены</option>
+                                            <option value="byDate">Даты</option>
+                                            <option value="byPopularity">Популярности</option>
+                                    </select>
+                                    <button id="apply-sort-btn" type="button" class="btn btn-primary">Сортировать</button>
+                              </form>
+                          </div>
+                        </div>
+
                 </div>
 
                 <div class="col-md-9">
